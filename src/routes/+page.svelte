@@ -8,9 +8,8 @@
 
 	import { Button, Modal, Spinner, Toast } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
-	import { slide } from 'svelte/transition';
 	let defaultModal = false,
-		showError = true,
+		showError = false,
 		errorMsg = '';
 
 	const plans = [
@@ -25,6 +24,7 @@
 		minSA = 1000000,
 		maxSA = 150000000;
 
+		
 	const bands: any[] = [];
 	let isCalculating: boolean = false;
 
@@ -49,17 +49,22 @@
 		total_payable: 0
 	};
 
+	let payload = {
+		age: '18',
+		term: '',
+		plan: '',
+		name: '',
+		phone: '',
+		email: '',
+		smoker: '',
+		gender: ''
+	};
+	
+
+	let selectedSumAssured = 0;
+
 	const { form, errors, handleChange, handleSubmit } = createForm({
-		initialValues: {
-			age: '18',
-			term: '',
-			plan: '',
-			name: '',
-			phone: '',
-			email: '',
-			smoker: '',
-			gender: ''
-		},
+		initialValues: payload,
 		validationSchema: yup.object().shape({
 			age: yup.number().required(),
 			gender: yup.string().required(),
@@ -85,70 +90,102 @@
 				alert(JSON.stringify($errors));
 				return;
 			}
-			isCalculating = true;
-			// alert(JSON.stringify(values, null, 2));
-			let plan_type = 'plan-a';
-			if (values.plan.toLocaleLowerCase().includes('plan b')) {
-				plan_type = 'plan-b';
-			}
 
-			const dob = dayjs()
-				.subtract(Number(values.age), 'years')
-				.subtract(1, 'months')
-				.format('YYYY-MM-DD');
-
-			const sumAssured = bands.find((dt) => values.age >= dt.minAge && values.age <= dt.maxAge).sa;
-
-			const payload = {
-				request_type: 'calculated-figures',
-				plan_type,
-				application_type: 'single',
-				premium_term: values.term.replaceAll('_', ' '),
-				applicant: {
-					dob,
-					gender: values.gender.toLocaleLowerCase(),
-					status: values.smoker == 'Yes' ? 'smoker' : 'non-smoker'
-				},
-				payment_frequency: 'monthly',
-				amount_type: 'target-amount',
-				amount_value: sumAssured
-			};
-
-			// const url = 'http://197.248.119.187:1000/api/v1/prulife';
-			const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife';
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					email: 'info@prudentiallife.co.ke',
-					'pass-Key': 'SKYY7-BEFK2-A4HBU-XDVYW-EJ4VF'
-				},
-				// mode:'no-cors',
-				body: JSON.stringify(payload)
-			}).catch((err) => {
-				console.log(err);
-			});
-
-			const data = await response?.json();
-			isCalculating = false;
-			console.log(data);
-
-			if (data.status) {
-				calculatedValues = data.calcutatedValues;
-				defaultModal = true;
-			} else {
-				showError = true;
-				let errors = '';
-				for (let i of data.errors) {
-					errors += i.msg;
-				}
-				errorMsg = errors;
-			}
+			payload = values;
+			selectedSumAssured = 0
+			
+			getQuote();
 
 			// console.log(data);
 		}
 	});
+
+	async function getQuote() {
+		isCalculating = true;
+		// alert(JSON.stringify(values, null, 2));
+		let plan_type = 'plan-a';
+		if (payload.plan.toLocaleLowerCase().includes('plan b')) {
+			plan_type = 'plan-b';
+		}
+
+		const dob = dayjs()
+			.subtract(Number(payload.age), 'years')
+			.subtract(1, 'months')
+			.format('YYYY-MM-DD');
+
+		const sumAssured =
+			selectedSumAssured ||
+			bands.find((dt) => payload.age >= dt.minAge && payload.age <= dt.maxAge).sa;
+
+		const reqPayload = {
+			request_type: 'calculated-figures',
+			plan_type,
+			application_type: 'single',
+			premium_term: payload.term.replaceAll('_', ' '),
+			applicant: {
+				dob,
+				gender: payload.gender.toLocaleLowerCase(),
+				status: payload.smoker == 'Yes' ? 'smoker' : 'non-smoker'
+			},
+			payment_frequency: 'monthly',
+			amount_type: 'target-amount',
+			amount_value: sumAssured
+		};
+
+		// const url = 'http://197.248.119.187:1000/api/v1/prulife';
+		const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife';
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				email: 'info@prudentiallife.co.ke',
+				'pass-Key': 'SKYY7-BEFK2-A4HBU-XDVYW-EJ4VF'
+			},
+			// mode:'no-cors',
+			body: JSON.stringify(reqPayload)
+		}).catch((err) => {
+			console.log(err);
+		});
+
+		const data = await response?.json();
+		isCalculating = false;
+		console.log(data);
+
+		if (data.status) {
+			calculatedValues = data.calcutatedValues;
+			selectedSumAssured = Math.floor(sumAssured)
+			defaultModal = true;
+		} else {
+			showError = true;
+			if(data.errors){
+				let errors = '';
+			for (let i of data.errors) {
+				errors += i.msg;
+			}
+			errorMsg = errors;
+			}else {
+				errorMsg = data.message||'Rquest failed, please try again';
+			}
+		}
+	}
 </script>
+
+
+  <!-- Error modal -->
+  <Modal bind:open={showError} size="xs" autoclose>
+	<div class="text-center">
+		<svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+		<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{errorMsg}</h3>
+		<!-- <Button color="red" class="mr-2">Close</Button> -->
+		<button
+		on:click={() => (showError = false)}
+		class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2">
+		Close
+	</button>
+	</div>
+  </Modal>
+
+  <!-- body -->
 
 <div class="bg-gray-100 m-8 ">
 	<!-- Banner Section -->
@@ -390,7 +427,7 @@
 					<div>
 						{#if isCalculating}
 							<button
-								class=" mt-7 text-white bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+								class=" text-white mt-2 bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
 							>
 								<Spinner class="mr-3" size="4" />
 								Calculating ...
@@ -398,7 +435,7 @@
 						{:else}
 							<button
 								type="submit"
-								class=" mt-7 text-white bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+								class=" text-white mt-2 bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-10 py-2.5 text-center mr-2 mb-2"
 								>Calculate</button
 							>
 						{/if}
@@ -435,6 +472,36 @@
 			</div>
 		</li>
 	</ul>
+	<!-- recalculate -->
+	<div class=" bg-gray-100 p-5 rounded-xl ">
+		<label for="sa" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
+			>Change sum assured?
+		</label>
+		<div class="flex items-center  gap-5">
+			<input
+				class=" flex-auto  rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+				id="sa"
+				bind:value={selectedSumAssured}
+				type="number"
+			/>
+
+			{#if isCalculating}
+				<button
+					class="flex-1 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center"
+				>
+					<Spinner class="mr-3" size="4" />
+					Re-calculating ...
+				</button>
+			{:else}
+				<button
+					type="button"
+					on:click={getQuote}
+					class="flex-1 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center "
+					>Re-calculate</button
+				>
+			{/if}
+		</div>
+	</div>
 	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
 		If you accept this quotation, one of our customer service representatives will contact you to
 		walk you through the coverage process.
@@ -443,7 +510,7 @@
 	<svelte:fragment slot="footer">
 		<button
 			on:click={() => (defaultModal = false)}
-			class="  text-white bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
+			class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
 		>
 			I accept
 		</button>
