@@ -157,7 +157,7 @@
 		<div class="relative container flex items-center px-6 mx-auto mt-10 w-full">
 			<img src={bannerImg} alt="Banner" class="object-cover" />
 			<h3
-				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-md md:text-4xl lg:text-6xl font-FSAlbertProBold"
+				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-xs md:text-4xl lg:text-5xl font-FSAlbertProBold"
 			>
 				Life insured is love assured
 			</h3>
@@ -167,7 +167,7 @@
 	<section id="banner-divider">
 		<div class="container flex  px-6 mx-auto my-16 md:my-24 justify-end items-center">
 			<h1
-			class="  text-4xl font-bold text-center md:text-5xl font-FSAlbertProBold"
+			class="  text-3xl font-bold text-center md:text-4xl font-FSAlbertProBold"
 		>
 			Get the only life insurance cover that you don't have to pay for for life.
 		</h1>
@@ -189,11 +189,11 @@
 			<!-- Calculator -->
 			<div class="flex flex-col mb-32 space-y-4 md:w-auto py-6 md:ml-10">
 				<h1
-					class="max-w-prose text-3xl font-bold text-center md:text-4xl text-primary md:text-left"
+					class="max-w-prose text-2xl font-bold text-center md:text-3xl text-primary md:text-left"
 				>
 					Your life isn't worth nothing
 				</h1>
-				<p class="max-w-prose text-center text-2xl md:text-3xl text-primary mb-20 md:text-left">
+				<p class="max-w-prose text-center text-xl md:text-2xl text-primary mb-20 md:text-left">
 					Your legacy is worth everything
 				</p>
 				<!-- Form -->
@@ -465,7 +465,7 @@
 	>
 		<!-- Left item -->
 		<div class="flex flex-col mb-32 space-y-4 md:w-1/2 md:mr-16">
-			<h1 class="max-w-prose text-3xl font-bold text-center md:text-5xl md:text-left font-FSAlbertProBold">
+			<h1 class="mt-6 md:mt-0 max-w-prose text-2xl font-bold text-center md:text-3xl md:text-left font-FSAlbertProBold">
 				We have a simple belief - that life and love go hand in hand.
 			</h1>
 			<p class="max-w-prose text-center text-xl md:text-2xl md:text-left">
