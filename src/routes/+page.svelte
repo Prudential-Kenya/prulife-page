@@ -308,9 +308,9 @@
 						bind:value={$form.term}
 						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-200 focus:border-red-200 block w-full p-2.5 mb-5"
 					>
-						<option selected class="text-gray-400" value="" disabled
+						<!-- <option selected class="text-gray-400" value="" disabled
 							>How long do you want to save?</option
-						>
+						> -->
 						<option value="10_years">For 10 Years</option>
 						<option value="15_years">For 15 Years</option>
 						<option value="20_years">For 20 Years</option>
