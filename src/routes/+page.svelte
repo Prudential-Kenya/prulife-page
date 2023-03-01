@@ -113,7 +113,7 @@
 			};
 
 			// const url = 'http://197.248.119.187:1000/api/v1/prulife';
-			const url = 'https://calculator.prudentiallife.co.ke/api/v1/prulife';
+			const url = 'https://api-calculator.prudentiallife.co.ke/';
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
@@ -121,6 +121,7 @@
 					email: 'info@prudentiallife.co.ke',
 					'pass-Key': 'SKYY7-BEFK2-A4HBU-XDVYW-EJ4VF'
 				},
+				mode:'cors',
 				body: JSON.stringify(payload)
 			}).catch((err) => {
 				console.log(err);
