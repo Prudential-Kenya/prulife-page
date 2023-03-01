@@ -223,7 +223,7 @@
 				<img src={family} alt="family" class="object-cover object-bottom" />
 			</div>
 			<!-- Calculator -->
-			<div class="flex flex-col mb-32 space-y-4 md:w-auto py-6 md:ml-10">
+			<div class="flex flex-col mb-32 space-y-4 md:w-auto py-6 lg:ml-10">
 				<h1
 					class="max-w-prose text-2xl font-bold text-center md:text-3xl text-primary md:text-left"
 				>
