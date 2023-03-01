@@ -35,7 +35,9 @@
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
+		"dayjs": "^1.11.7",
 		"svelte-forms": "^2.3.1",
-		"svelte-forms-lib": "^2.0.1"
+		"svelte-forms-lib": "^2.0.1",
+		"yup": "^1.0.2"
 	}
 }
