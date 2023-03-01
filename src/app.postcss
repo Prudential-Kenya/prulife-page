@@ -4,12 +4,17 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: 'FSAlbertPro';
+	font-family: 'FSAlbertProRegular';
 	src: url('src/lib/fonts/FSAlbertPro-Regular.otf');
 }
+@font-face {
+	font-family: 'FSAlbertProBold';
+	src: url('src/lib/fonts/FSAlbertPro-Bold.otf');
+}
+
 
 @layer base {
     html {
-      font-family: FSAlbertPro;
+      font-family: FSAlbertProRegular,FSAlbertProBold;
     }
   }

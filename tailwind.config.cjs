@@ -9,6 +9,11 @@ const config = {
 			primary: '#DA291C',
 			secondary: '#BFBFBE'
 		},
+		fontFamily: {
+			FSAlbertProRegular: ["FSAlbertProRegular", "verdana"],
+			FSAlbertProBold: ["FSAlbertProBold", "verdana"],
+		  },
+	  
 		extend: {}
 	},
 
