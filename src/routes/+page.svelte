@@ -176,11 +176,11 @@
 	<section id="calculator">
 		<!-- Flex Container -->
 		<div
-			class="container flex max-w-7xl rounded-2xl px-6 mx-auto mt-10 space-y-0 md:space-y-0  bg-gray-300  hover:shadow-md  md:flex-row items-stretch"
+			class="container flex max-w-7xl rounded-2xl justify-center px-6 mx-auto mt-10 space-y-0 md:space-y-0  bg-gray-300  hover:shadow-md  md:flex-row items-stretch"
 		>
 			<!-- Left item -->
 			<div
-				class=" hidden md:flex justify-items-stretch  md:items-end  md:-ml-32 md:w-1/2 align-bottom"
+				class=" hidden  justify-items-stretch  align-bottom  lg:items-end  lg:-ml-32 lg:flex lg:w-1/2"
 			>
 				<img src={family} alt="family" class="object-cover object-bottom" />
 			</div>
@@ -443,12 +443,12 @@
 	<svelte:fragment slot="footer">
 		<button
 			on:click={() => (defaultModal = false)}
-			class="  text-white bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+			class="  text-white bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
 		>
 			I accept
 		</button>
 		<button
-			class=" text-gray-800 bg-transparent border border-gray-200 hover:bg-red-100 hover:text-primary  font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+			class=" text-gray-800 bg-transparent border border-gray-200 hover:bg-red-100 hover:text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
 		>
 			Decline
 		</button>
