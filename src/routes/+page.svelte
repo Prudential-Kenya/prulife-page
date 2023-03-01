@@ -157,7 +157,7 @@
 		<div class="relative container flex items-center px-6 mx-auto mt-10 w-full">
 			<img src={bannerImg} alt="Banner" class="object-cover" />
 			<h3
-				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-md md:text-4xl lg:text-6xl"
+				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-md md:text-4xl lg:text-6xl font-FSAlbertProBold"
 			>
 				Life insured is love assured
 			</h3>
@@ -167,7 +167,7 @@
 	<section id="banner-divider">
 		<div class="container flex  px-6 mx-auto my-16 md:my-24 justify-end items-center">
 			<h1
-			class="  text-4xl font-bold text-center md:text-5xl"
+			class="  text-4xl font-bold text-center md:text-5xl font-FSAlbertProBold"
 		>
 			Get the only life insurance cover that you don't have to pay for for life.
 		</h1>
@@ -465,7 +465,7 @@
 	>
 		<!-- Left item -->
 		<div class="flex flex-col mb-32 space-y-4 md:w-1/2 md:mr-16">
-			<h1 class="max-w-prose text-3xl font-bold text-center md:text-5xl md:text-left">
+			<h1 class="max-w-prose text-3xl font-bold text-center md:text-5xl md:text-left font-FSAlbertProBold">
 				We have a simple belief - that life and love go hand in hand.
 			</h1>
 			<p class="max-w-prose text-center text-xl md:text-2xl md:text-left">
