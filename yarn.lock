@@ -146,6 +146,11 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@iarna/toml@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
+  integrity sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==
+
 "@jridgewell/resolve-uri@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz#2203b118c157721addfe69d47b70465463066d78"
@@ -242,6 +247,15 @@
   dependencies:
     import-meta-resolve "^2.2.0"
 
+"@sveltejs/adapter-netlify@^2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-netlify/-/adapter-netlify-2.0.5.tgz#7d329b387d0ca84729510456c1cff6a40b49f905"
+  integrity sha512-i0qkxuH2/mLfk9T6uHAc/a3KU6mm9QhYdqqoIWWSAhst1lchLt9FzZfX9u6zzltOX+w+78/9E/+KPEwib7xenA==
+  dependencies:
+    "@iarna/toml" "^2.2.5"
+    esbuild "^0.16.3"
+    set-cookie-parser "^2.5.1"
+
 "@sveltejs/adapter-node@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-node/-/adapter-node-1.2.0.tgz#90224de708b25bc0e4674b3c1ebeb7a91ba80fe9"
@@ -251,6 +265,11 @@
     "@rollup/plugin-json" "^6.0.0"
     "@rollup/plugin-node-resolve" "^15.0.1"
     rollup "^3.7.0"
+
+"@sveltejs/adapter-static@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@sveltejs/adapter-static/-/adapter-static-2.0.1.tgz#b76f7742ae635e1c063efcab8c6de064255f6292"
+  integrity sha512-o5/q3YwD/ErxYCFlK1v3ydvldyNKk1lh3oeyxn4mhz+Pkbx/uuxhzmbOpytTlp5aVqNHDVsb04xadUzOFCDDzw==
 
 "@sveltejs/kit@^1.5.0":
   version "1.8.3"
@@ -723,7 +742,7 @@ es6-promise@^3.1.2:
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-3.3.1.tgz#a08cdde84ccdbf34d027a1451bc91d4bcd28a613"
   integrity sha512-SOp9Phqvqn7jtEUxPWdWfWoLmyt2VaJ6MpvP9Comy1MceMXqE6bxvaTu4iaxpYYPzhny28Lc+M87/c2cPK6lDg==
 
-esbuild@^0.16.14:
+esbuild@^0.16.14, esbuild@^0.16.3:
   version "0.16.17"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.16.17.tgz#fc2c3914c57ee750635fee71b89f615f25065259"
   integrity sha512-G8LEkV0XzDMNwXKgM0Jwu3nY3lSTwSGY6XbxM9cr9+s0T/qSV1q1JVPBGzm3dcjhCic9+emZDmMffkwgPeOeLg==
