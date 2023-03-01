@@ -112,7 +112,8 @@
 				amount_value: sumAssured
 			};
 
-			const url = 'http://197.248.119.187:1000/api/v1/prulife';
+			// const url = 'http://197.248.119.187:1000/api/v1/prulife';
+			const url = 'https://calculator.prudentiallife.co.ke/api/v1/prulife';
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
