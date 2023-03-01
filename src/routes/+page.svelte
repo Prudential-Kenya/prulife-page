@@ -9,7 +9,9 @@
 	import { Button, Modal, Spinner, Toast } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
 	import { slide } from 'svelte/transition';
-	let defaultModal = false, showError = true, errorMsg='';
+	let defaultModal = false,
+		showError = true,
+		errorMsg = '';
 
 	const plans = [
 		'Plan A (Life Protection only)',
@@ -79,7 +81,7 @@
 				$errors.smoker
 			) {
 				console.log($errors);
-				
+
 				alert(JSON.stringify($errors));
 				return;
 			}
@@ -113,7 +115,7 @@
 			};
 
 			// const url = 'http://197.248.119.187:1000/api/v1/prulife';
-			const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife'
+			const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife';
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
@@ -126,7 +128,7 @@
 			}).catch((err) => {
 				console.log(err);
 			});
-	
+
 			const data = await response?.json();
 			isCalculating = false;
 			console.log(data);
@@ -134,20 +136,18 @@
 			if (data.status) {
 				calculatedValues = data.calcutatedValues;
 				defaultModal = true;
-			}else{
-				
+			} else {
 				showError = true;
-				let errors = ''
-				for(let i of data.errors) {
-					errors += i.msg
+				let errors = '';
+				for (let i of data.errors) {
+					errors += i.msg;
 				}
-				errorMsg = errors
+				errorMsg = errors;
 			}
 
 			// console.log(data);
 		}
 	});
-	
 </script>
 
 <div class="bg-gray-100 m-8 ">
@@ -157,7 +157,7 @@
 		<div class="relative container flex items-center px-6 mx-auto mt-10 w-full">
 			<img src={bannerImg} alt="Banner" class="object-cover" />
 			<h3
-				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-xs md:text-4xl lg:text-5xl font-FSAlbertProBold"
+				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-xs md:text-3xl lg:text-4xl font-FSAlbertProBold"
 			>
 				Life insured is love assured
 			</h3>
@@ -165,12 +165,10 @@
 	</section>
 
 	<section id="banner-divider">
-		<div class="container flex  px-6 mx-auto my-16 md:my-24 justify-end items-center">
-			<h1
-			class="  text-3xl font-bold text-center md:text-4xl font-FSAlbertProBold"
-		>
-			Get the only life insurance cover that you don't have to pay for for life.
-		</h1>
+		<div class="container flex  px-6 mx-auto my-16 md:my-24 justify-center items-center">
+			<h1 class="  text-2xl font-bold text-center md:text-3xl font-FSAlbertProBold">
+				Get the only life insurance cover that you don't have to pay for for life.
+			</h1>
 		</div>
 	</section>
 
@@ -178,7 +176,8 @@
 	<section id="calculator">
 		<!-- Flex Container -->
 		<div
-			class="container flex max-w-7xl rounded-2xl justify-center px-6 mx-auto mt-10 space-y-0 md:space-y-0  bg-gray-300  hover:shadow-md  md:flex-row items-stretch"
+			class="container flex max-w-3xl lg:max-w-7xl rounded-2xl justify-center px-6 mx-auto mt-10 space-y-0 md:space-y-0 
+			 bg-gray-300  hover:shadow-md  md:flex-row items-stretch"
 		>
 			<!-- Left item -->
 			<div
@@ -357,45 +356,45 @@
 						bind:value={$form.phone}
 					/>
 					{#if $errors.smoker}
-					<div class="flex items-center space-x-3">
-						<Indicator size={'xs'} color="red" />
-						<small class="text-primary">{$errors.smoker}</small>
-					</div>
+						<div class="flex items-center space-x-3">
+							<Indicator size={'xs'} color="red" />
+							<small class="text-primary">{$errors.smoker}</small>
+						</div>
 					{/if}
 					{#if $errors.gender}
-					<div class="flex items-center space-x-3">
+						<div class="flex items-center space-x-3">
 							<Indicator size={'xs'} color="red" />
-						<small class="text-primary">{$errors.gender}</small>
-					</div>
+							<small class="text-primary">{$errors.gender}</small>
+						</div>
 					{/if}
 					{#if $errors.plan}
-					<div class="flex items-center space-x-3">
+						<div class="flex items-center space-x-3">
 							<Indicator size={'xs'} color="red" />
-						<small class="text-primary">{$errors.plan}</small>
-					</div>
+							<small class="text-primary">{$errors.plan}</small>
+						</div>
 					{/if}
 					{#if $errors.name}
-					<div class="flex items-center space-x-3">
+						<div class="flex items-center space-x-3">
 							<Indicator size={'xs'} color="red" />
-						<small class="text-primary">{$errors.name}</small>
-					</div>
+							<small class="text-primary">{$errors.name}</small>
+						</div>
 					{/if}
 					{#if $errors.email}
-					<div class="flex items-center space-x-3">
+						<div class="flex items-center space-x-3">
 							<Indicator size={'xs'} color="red" />
-						<small class="text-primary">{$errors.email}</small>
-					</div>
+							<small class="text-primary">{$errors.email}</small>
+						</div>
 					{/if}
 
 					<!-- Submit -->
 					<div>
 						{#if isCalculating}
-						<button 
+							<button
 								class=" mt-7 text-white bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
-								>
+							>
 								<Spinner class="mr-3" size="4" />
 								Calculating ...
-					</button>
+							</button>
 						{:else}
 							<button
 								type="submit"
@@ -409,7 +408,6 @@
 		</div>
 	</section>
 </div>
-
 
 <!-- Modal - calculator response -->
 <Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
@@ -465,7 +463,9 @@
 	>
 		<!-- Left item -->
 		<div class="flex flex-col mb-32 space-y-4 md:w-1/2 md:mr-16">
-			<h1 class="mt-6 md:mt-0 max-w-prose text-2xl font-bold text-center md:text-3xl md:text-left font-FSAlbertProBold">
+			<h1
+				class="mt-6 md:mt-0 max-w-prose text-2xl font-bold text-center md:text-3xl md:text-left font-FSAlbertProBold"
+			>
 				We have a simple belief - that life and love go hand in hand.
 			</h1>
 			<p class="max-w-prose text-center text-xl md:text-2xl md:text-left">
