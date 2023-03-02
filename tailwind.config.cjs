@@ -7,7 +7,8 @@ const config = {
 	theme: {
 		colors: {
 			primary: '#DA291C',
-			secondary: '#BFBFBE'
+			secondary: '#BFBFBE',
+			background: '#F7F7F7'
 		},
 		fontFamily: {
 			FSAlbertProRegular: ["FSAlbertProRegular", "verdana"],

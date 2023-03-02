@@ -24,6 +24,7 @@
 		minSA = 1000000,
 		maxSA = 150000000;
 
+
 		
 	const bands: any[] = [];
 	let isCalculating: boolean = false;
@@ -59,6 +60,7 @@
 		smoker: '',
 		gender: ''
 	};
+
 	
 
 	let selectedSumAssured = 0;
@@ -132,7 +134,6 @@
 			amount_value: sumAssured
 		};
 
-		// const url = 'http://197.248.119.187:1000/api/v1/prulife';
 		const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife';
 		const response = await fetch(url, {
 			method: 'POST',
@@ -187,14 +188,14 @@
 
   <!-- body -->
 
-<div class="bg-gray-100 m-8 ">
+<div class="bg-background m-8 ">
 	<!-- Banner Section -->
 	<section id="banner">
 		<!-- Flex Container -->
-		<div class="relative container flex items-center px-6 mx-auto mt-10 w-full">
-			<img src={bannerImg} alt="Banner" class="object-cover" />
+		<div class="relative container flex items-center px-6 mx-auto mt-10 w-full rounded-xl">
+			<img src={bannerImg} alt="Banner" class="object-cover rounded-xl" />
 			<h3
-				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-xs md:text-3xl lg:text-4xl font-FSAlbertProBold"
+				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-xs md:text-3xl lg:text-5xl font-FSAlbertProBold"
 			>
 				Life insured is love assured
 			</h3>
@@ -203,7 +204,7 @@
 
 	<section id="banner-divider">
 		<div class="container flex  px-6 mx-auto my-16 md:my-24 justify-center items-center">
-			<h1 class="  text-2xl font-bold text-center md:text-3xl font-FSAlbertProBold">
+			<h1 class="  text-2xl font-bold text-center md:text-3xl lg:text-4xl font-FSAlbertProBold">
 				Get the only life insurance cover that you don't have to pay for for life.
 			</h1>
 		</div>
@@ -211,14 +212,15 @@
 
 	<!-- Calculator Section -->
 	<section id="calculator">
+
 		<!-- Flex Container -->
 		<div
 			class="container flex max-w-3xl lg:max-w-7xl rounded-2xl justify-center px-6 mx-auto mt-10 space-y-0 md:space-y-0 
-			 bg-gray-300  hover:shadow-md  md:flex-row items-stretch"
+			 bg-secondary hover:shadow-md  md:flex-row items-stretch"
 		>
 			<!-- Left item -->
 			<div
-				class=" hidden  justify-items-stretch  align-bottom  lg:items-end  lg:-ml-32 lg:flex lg:w-1/2"
+				class=" hidden  justify-items-stretch  align-bottom  lg:items-end  lg:-ml-52 lg:flex lg:w-1/2"
 			>
 				<img src={family} alt="family" class="object-cover object-bottom" />
 			</div>
@@ -448,6 +450,11 @@
 
 <!-- Modal - calculator response -->
 <Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
+	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+		If you accept this quotation, one of our customer service representatives will contact you to
+		walk you through the coverage process.
+	</p
+	>
 	<ul class="my-4 space-y-3">
 		<li>
 			<div
@@ -502,9 +509,8 @@
 			{/if}
 		</div>
 	</div>
-	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-		If you accept this quotation, one of our customer service representatives will contact you to
-		walk you through the coverage process.
+	<p class="text-xs font-normal text-gray-500 dark:text-gray-400">
+		The calculator assumes that your fund pays an annual management charge of 1% per annum. In addition, a 5% contribution charge is assumed to be paid on each regular contribution (based on Standard PRSA fees and charges maximum limits). You should contact your pension provider to confirm what charges you are actually paying as these can have a significant effect on your retirement fund which determines your retirement income. Please refer to the fees and charges section of our website for further detail.
 	</p>
 
 	<svelte:fragment slot="footer">
