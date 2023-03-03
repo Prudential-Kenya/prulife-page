@@ -173,6 +173,8 @@
 	function classNames(...classes: any){
 		return classes.filter(Boolean).join(' ');
 	}
+	//const width = screen.width;
+	//console.log(width);
 </script>
 
 
@@ -230,10 +232,10 @@
 				</div>
 				<!-- calculator -->
 				<div class="flex flex-col mb-0 w-full space-y-4 md:w-2/3 py-3">
-					<h1 class="max-w-prose text-2xl font-bold text-center md:text-3xl lg:text-4xl text-primary mt-3">
+					<h1 class="flex w-full text-xl font-bold items-center justify-center px-3 md:px-0 md:text-3xl lg:text-4xl text-primary mt-3">
 						Your life isn't worth nothing.
 					</h1>
-					<p class="max-w-prose text-center font-bold text-2xl md:text-3xl lg:text-4xl text-primary">
+					<p class="flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-3xl lg:text-4xl text-primary">
 						Your legacy is worth everything.
 					</p>
 					<!-- Form -->
@@ -253,10 +255,10 @@
 									max="60"
 									on:change={handleChange}
 									bind:value={$form.age}
-									class="basis-11/12 h-2 bg-white text-primary rounded-lg appearance-none cursor-pointer accent-primary"
+									class="w-2/3 md:w-1/2 h-2 bg-white text-primary rounded-lg appearance-none cursor-pointer accent-red-900"
 								/>
 								<input
-									class=" flex items-center basis-1/12 ml-4 rounded-lg bg-gray-50 appearance-none border border-gray-200  py-2 px-2 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 "
+									class="w-1/3 md:w-1/2 flex items-center ml-4 rounded-lg bg-gray-50 appearance-none border border-gray-200  py-2 px-2 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 "
 									id="age"
 									type="number"
 									on:change={handleChange}
@@ -348,7 +350,7 @@
 							<select
 								id="term"
 								bind:value={$form.term}
-								class="bg-gray-50 border flex-grow border-gray-300 text-primary text-sm rounded-lg focus:ring-red-200 focus:border-red-200 block w-full p-2.5 md:w-1/4"
+								class="bg-gray-50 border flex-grow border-gray-300 text-sm rounded-lg focus:ring-red-200 focus:border-red-200 block w-full p-2.5 md:w-1/4"
 								>
 								<!-- <option selected class="text-gray-400" value="" disabled
 									>How long do you want to save?</option
@@ -768,52 +770,27 @@
 <!-- Hero Section -->
 <section id="hero">
 	<!-- Flex Container -->
-	<div class={classNames("container flex flex-col-reverse items-center md:items-start px-6 mx-auto mt-14",
-		"md:flex-row space-x-0 md:space-x-14 mb-3")}>
-		<div class="flex flex-col w-full md:w-1/2 text-2xl md:ml-16 md:tracking-wide text-center md:text-left">
-			<h1 class="max-w-prose font-bold md:text-3xl lg:text-4xl mt-10 md:mt-20">We have a simple belief -</h1>
-			<h1 class="max-w-prose font-bold md:text-3xl lg:text-4xl">that life and love go hand in hand.</h1>
-			<p class="max-w-prose text-2xl md:text-3xl md:text-left mt-4 font-medium">
+	<div class={classNames("container flex flex-col-reverse items-center px-6 mx-auto mt-14 space-y-0",
+		"md:space-y-0 md:flex-row ")}>
+		<!-- Left item -->
+		<div class="flex flex-col space-y-4 w-full md:w-1/2 md:mr-16">
+			<div
+				class="flex flex-col mt-6 md:mt-0 max-w-prose text-2xl font-bold text-center md:text-3xl md:text-left md:tracking-wide"
+			>
+				<h3 class="md:text-3xl lg:text-4xl leading-loose">We have a simple belief - </h3>
+				<h3 class=" md:text-3xl lg:text-4xl leading-loose">that life and love go hand in hand.</h3>
+			</div>
+			<p class="flex max-w-prose text-center text-xl md:text-3xl md:text-left font-medium md:mt-2 leading-loose">
 				Here's life insurance that's more than just a policy. We've made sure that the products we
 				design help you live life well. PRULife is life insurance for what truly matters most to you
 				- your loved ones.
 			</p>
-			<p class="max-w-prose text-primary text-xl mt-3">
+			<p class="flex max-w-prose text-center text-primary text-xl md:text-3xl md:text-left md:mt-2 leading-loose">
 				Because when it comes to life, don't leave it to chance. Leave it to us.
 			</p>
 		</div>
 		<!-- Image -->
 		<div class="flex w-full md:w-1/2">
-			<img src={grandfather} alt="grandfather" class="object-cover"/>
-		</div>
-	</div>
-	<div class={classNames("container hidden flex-col-reverse items-center px-6 mx-auto mt-14 space-y-0",
-		"md:space-y-0 md:flex-row ")}>
-		<!-- Left item -->
-		<div class="flex flex-col mb-32 space-y-4 md:w-1/2 md:mr-16">
-			<h1
-				class="mt-6 md:mt-0 max-w-prose text-2xl font-bold text-center md:text-3xl md:text-left font-FSAlbertProBold"
-			>
-				We have a simple belief - that life and love go hand in hand.
-			</h1>
-			<p class="max-w-prose text-center text-xl md:text-2xl md:text-left">
-				Here's life insurance that's more than just a policy. We've made sure that the products we
-				design help you live life well. PRULife is life insurance for what truly matters most to you
-				- your loved ones.
-			</p>
-			<p class="max-w-prose text-center text-primary text-xl md:text-left">
-				Because when it comes to life, don't leave it to chance. Leave it to us.
-			</p>
-			<div class="flex justify-center md:justify-start">
-				<a
-					href="#top"
-					class="p-3 px-6 pt-2 text-white bg-primary rounded-full baseline hover:bg-brightRedLight"
-					>Get Started</a
-				>
-			</div>
-		</div>
-		<!-- Image -->
-		<div class="md:w-1/2">
 			<img src={grandfather} alt="grandfather" class="object-cover" />
 		</div>
 	</div>
