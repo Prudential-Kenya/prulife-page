@@ -288,7 +288,7 @@
 											value={p}
 											on:change={handleChange}
 											checked={$form.smoker == p}
-											class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+											class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 "
 										/>
 										<label
 											for={`smoker-${p}`}
@@ -314,7 +314,7 @@
 											value={p}
 											on:change={handleChange}
 											checked={$form.gender == p}
-											class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+											class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 "
 										/>
 										<label
 											for={`gender-${p}`}
@@ -337,7 +337,7 @@
 										value={p}
 										on:change={handleChange}
 										checked={$form.plan == p}
-										class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+										class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 "
 									/>
 									<label
 										for={`plan-${p}`}
