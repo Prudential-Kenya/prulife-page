@@ -288,7 +288,7 @@
 											value={p}
 											on:change={handleChange}
 											checked={$form.smoker == p}
-											class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+											class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
 										/>
 										<label
 											for={`smoker-${p}`}
@@ -314,7 +314,7 @@
 											value={p}
 											on:change={handleChange}
 											checked={$form.gender == p}
-											class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+											class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
 										/>
 										<label
 											for={`gender-${p}`}
@@ -707,9 +707,9 @@
 				class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
 				<Indicator color="teal" />
-				<span class="flex-1 ml-3 whitespace-nowrap">Monthly premium</span>
+				<span class="flex-1 ml-3 whitespace-nowrap">Sum assured</span>
 				<span class="inline-flex ml-3 whitespace-nowrap"
-					>KES {Number(calculatedValues.total_payable).toLocaleString()}</span
+					>KES {Number(calculatedValues.sum_assured).toLocaleString()}</span
 				>
 			</div>
 		</li>
@@ -718,12 +718,13 @@
 				class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
 				<Indicator color="teal" />
-				<span class="flex-1 ml-3 whitespace-nowrap">Sum assured</span>
+				<span class="flex-1 ml-3 whitespace-nowrap">Monthly premium</span>
 				<span class="inline-flex ml-3 whitespace-nowrap"
-					>KES {Number(calculatedValues.sum_assured).toLocaleString()}</span
+					>KES {Number(calculatedValues.total_payable).toLocaleString()}</span
 				>
 			</div>
 		</li>
+		
 	</ul>
 	<!-- recalculate -->
 	<div class=" bg-gray-100 p-5 rounded-xl ">
