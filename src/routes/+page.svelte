@@ -3,6 +3,7 @@
 	import family from '$lib/images/mother_childv2.png';
 	import grandfather from '$lib/images/grandfather.png';
 	import bannerImg from '$lib/images/banner.png';
+	import bannerImg1 from '$lib/images/banner-2.png';
 	import * as yup from 'yup';
 	import dayjs from 'dayjs';
 
@@ -169,6 +170,9 @@
 			}
 		}
 	}
+	function classNames(...classes: any){
+		return classes.filter(Boolean).join(' ');
+	}
 </script>
 
 
@@ -188,36 +192,272 @@
 
   <!-- body -->
 
-<div class="bg-background m-8 ">
+<div class="bg-background">
 	<!-- Banner Section -->
 	<section id="banner">
 		<!-- Flex Container -->
-		<div class="relative container flex items-center px-6 mx-auto mt-10 w-full rounded-xl">
-			<img src={bannerImg} alt="Banner" class="object-cover rounded-xl" />
-			<h3
-				class="absolute text-2xl max-w-xs top-5/12 left-24 text-primary font-bold md:max-w-xs md:text-3xl lg:text-5xl font-FSAlbertProBold"
+		<div class="relative container flex items-center px-6 mx-auto mt-0 w-full rounded-xl">
+			<img src={bannerImg1} alt="Banner" class="object-cover rounded-xl" />
+			<div
+				class="absolute text-2xl w-full md:max-w-xs top-5/12 ml-3 md:ml-0 md:left-24 text-primary font-extrabold md:text-3xl lg:text-5xl"
 			>
-				Life insured is love assured
-			</h3>
+				<h3>Life insured is</h3>
+				<h3>love assured.</h3>
+			</div>
 		</div>
 	</section>
 
 	<section id="banner-divider">
-		<div class="container flex  px-6 mx-auto my-16 md:my-24 justify-center items-center">
-			<h1 class="  text-2xl font-bold text-center md:text-3xl lg:text-4xl font-FSAlbertProBold">
-				Get the only life insurance cover that you don't have to pay for for life.
-			</h1>
+		<div class="container flex px-6 mx-auto my-10 md:my-16 justify-center items-center">
+			<div class="flex flex-col text-2xl font-bold text-center md:text-3xl lg:text-5xl">
+				<h1>Get the only life insurance cover that</h1>
+				<h1>you don't have to pay for for life.</h1>
+			</div>
 		</div>
 	</section>
 
 	<!-- Calculator Section -->
 	<section id="calculator">
-
 		<!-- Flex Container -->
+		<div class={classNames("container flex w-full mx-auto px-6 mt-10")}>
+			<div class={classNames("flex flex-col md:flex-row w-full md:max-w-6xl items-center space-x-0",
+				"md:space-x-5 bg-secondary rounded-lg ml-0 md:ml-32")}>
+				<!-- left image on web, hide on mobile -->
+				<div class="hidden relative md:flex md:w-1/3 md:-ml-20 mt-auto">
+					<div class="absolute bottom-0 w-full">
+						<img src={family} alt="family" class="object-cover object-bottom" />
+					</div>
+				</div>
+				<!-- calculator -->
+				<div class="flex flex-col mb-0 w-full space-y-4 md:w-2/3 py-3">
+					<h1 class="max-w-prose text-2xl font-bold text-center md:text-3xl lg:text-4xl text-primary mt-3">
+						Your life isn't worth nothing.
+					</h1>
+					<p class="max-w-prose text-center font-bold text-2xl md:text-3xl lg:text-4xl text-primary">
+						Your legacy is worth everything.
+					</p>
+					<!-- Form -->
+					<form on:submit={handleSubmit} class="flex flex-col w-full space-y-3 md:border p-6 rounded-lg">
+						<!-- Age -->
+						<div class="flex flex-col md:flex-row w-full items-center">
+							<label
+								for="age"
+								class="range block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/4"
+								>
+								Your age</label>
+							<div class="flex flex-row items-center w-full md:w-3/4">
+								<input
+									id="age"
+									type="range"
+									min="18"
+									max="60"
+									on:change={handleChange}
+									bind:value={$form.age}
+									class="basis-11/12 h-2 bg-white text-primary rounded-lg appearance-none cursor-pointer accent-primary"
+								/>
+								<input
+									class=" flex items-center basis-1/12 ml-4 rounded-lg bg-gray-50 appearance-none border border-gray-200  py-2 px-2 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 "
+									id="age"
+									type="number"
+									on:change={handleChange}
+									bind:value={$form.age}
+								/>
+							</div>
+						</div>
+						<!-- Smoker -->
+						<div class="flex flex-col md:flex-row w-full items-center">
+							<label 
+								for="smoker" 
+								class="block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/4"
+								>Are you a smoker?</label
+							>
+							<div class="flex items-center w-full md:w-3/4">
+								<div class="flex items-center mr-4">
+									{#each options as p}
+										<input
+											type="radio"
+											name="smoker"
+											id={`smoker-${p}`}
+											value={p}
+											on:change={handleChange}
+											checked={$form.smoker == p}
+											class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+										/>
+										<label
+											for={`smoker-${p}`}
+											class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
+										>
+									{/each}
+								</div>
+							</div>
+						</div>
+						<!-- gender -->
+						<div class="flex flex-col md:flex-row w-full items-center">
+							<label 
+								for="gender" 
+								class="block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/4"
+								>Your gender</label>
+							<div class="flex items-center w-full md:w-3/4">
+								<div class="flex items-center mr-4">
+									{#each genderOptions as p}
+										<input
+											type="radio"
+											name="gender"
+											id={`gender-${p}`}
+											value={p}
+											on:change={handleChange}
+											checked={$form.gender == p}
+											class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+										/>
+										<label
+											for={`gender-${p}`}
+											class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
+										>
+									{/each}
+								</div>
+							</div>
+						</div>
+						<!-- Plan -->
+						<label for="plan" class="block text-base font-bold text-gray-900 dark:text-white"
+							>Choose your plan</label>
+						<div class="flex">
+							<div class="flex items-center mr-4">
+								{#each plans as p}
+									<input
+										type="radio"
+										name="plan"
+										id={`plan-${p}`}
+										value={p}
+										on:change={handleChange}
+										checked={$form.plan == p}
+										class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
+									/>
+									<label
+										for={`plan-${p}`}
+										class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
+									>
+								{/each}
+							</div>
+						</div>
+						<!-- Term -->
+						<div class="flex flex-col md:flex-row w-full items-center">
+							<label 
+								for="term" 
+								class="block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/2"
+								>How long do you want to pay for your policy?</label>
+							<select
+								id="term"
+								bind:value={$form.term}
+								class="bg-gray-50 border flex-grow border-gray-300 text-primary text-sm rounded-lg focus:ring-red-200 focus:border-red-200 block w-full p-2.5 md:w-1/4"
+								>
+								<!-- <option selected class="text-gray-400" value="" disabled
+									>How long do you want to save?</option
+								> -->
+								<option value="10_years">For 10 Years</option>
+								<option value="15_years">For 15 Years</option>
+								<option value="20_years">For 20 Years</option>
+								<option value="to_age_60">Up to age 60</option>
+								<option value="to_age_65">Up to age 65</option>
+								<option value="whole_life">My whole life</option>
+							</select>
+						</div>
+						<!-- Name -->
+						<div class="flex flex-col md:flex-row w-full items-center">
+							<label 
+								for="name" 
+								class="block text-base justify-center font-bold text-gray-900 dark:text-white w-full md:w-1/2"
+								>Your name</label>
+							<input
+								class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 w-full md:w-1/2"
+								id="name"
+								type="text"
+								on:change={handleChange}
+								bind:value={$form.name}
+							/>
+						</div>
+						<!-- Email -->
+						<div class="flex flex-col md:flex-row w-full items-center">
+							<label
+								for="email"
+								class="block text-base justify-center font-bold text-gray-900 dark:text-white w-full md:w-1/2"
+								>Your email address</label>
+							<input
+								class="rounded-lg bg-gray-50 appearance-none border border-gray-200 p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 w-full md:w-1/2"
+								id="email"
+								type="text"
+								on:change={handleChange}
+								bind:value={$form.email}
+							/>
+						</div>
+						<!-- Phone -->
+						<div class="flex flex-col md:flex-row w-full items-center">
+							<label 
+								for="phone" 
+								class="block text-base justify-center font-bold text-gray-900 dark:text-white w-full md:w-1/2"
+								>Your phone number (Optional)</label>
+							<input
+								class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 w-full md:w-1/2"
+								id="phone"
+								type="text"
+								on:change={handleChange}
+								bind:value={$form.phone}
+							/>
+						</div>
+						{#if $errors.smoker}
+							<div class="flex items-center space-x-3">
+								<Indicator size={'xs'} color="red" />
+								<small class="text-primary">{$errors.smoker}</small>
+							</div>
+						{/if}
+						{#if $errors.gender}
+							<div class="flex items-center space-x-3">
+								<Indicator size={'xs'} color="red" />
+								<small class="text-primary">{$errors.gender}</small>
+							</div>
+						{/if}
+						{#if $errors.plan}
+							<div class="flex items-center space-x-3">
+								<Indicator size={'xs'} color="red" />
+								<small class="text-primary">{$errors.plan}</small>
+							</div>
+						{/if}
+						{#if $errors.name}
+							<div class="flex items-center space-x-3">
+								<Indicator size={'xs'} color="red" />
+								<small class="text-primary">{$errors.name}</small>
+							</div>
+						{/if}
+						{#if $errors.email}
+							<div class="flex items-center space-x-3">
+								<Indicator size={'xs'} color="red" />
+								<small class="text-primary">{$errors.email}</small>
+							</div>
+						{/if}
+
+						<!-- Submit -->
+						<div>
+							{#if isCalculating}
+								<button
+									class=" text-white bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2"
+								>
+									<Spinner class="mr-3" size="4" />
+									Calculating ...
+								</button>
+							{:else}
+								<button
+									type="submit"
+									class=" text-white bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-10 py-2.5 text-center"
+									>Calculate</button
+								>
+							{/if}
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		<div
-			class="container flex max-w-3xl lg:max-w-7xl rounded-2xl justify-center px-6 mx-auto mt-10 space-y-0 md:space-y-0 
-			 bg-secondary hover:shadow-md  md:flex-row items-stretch"
-		>
+			class={classNames("hidden container max-w-3xl lg:max-w-7xl rounded-xl justify-center px-6",
+				"mx-auto mt-10 space-y-0 md:space-y-0 bg-secondary hover:shadow-md  md:flex-row items-stretch")}>
 			<!-- Left item -->
 			<div
 				class=" hidden  justify-items-stretch  align-bottom  lg:items-end  lg:-ml-52 lg:flex lg:w-1/2"
@@ -235,10 +475,7 @@
 					Your legacy is worth everything
 				</p>
 				<!-- Form -->
-				<form
-					on:submit={handleSubmit}
-					class="flex flex-col  w-full min-w-full border p-6 rounded-lg "
-				>
+				<form on:submit={handleSubmit} class="flex flex-col  w-full min-w-full border p-6 rounded-lg">
 					<!-- Age -->
 					<label
 						for="age"
@@ -531,9 +768,27 @@
 <!-- Hero Section -->
 <section id="hero">
 	<!-- Flex Container -->
-	<div
-		class="container flex flex-col-reverse items-center px-6 mx-auto mt-14 space-y-0 md:space-y-0 md:flex-row "
-	>
+	<div class={classNames("container flex flex-col-reverse items-center md:items-start px-6 mx-auto mt-14",
+		"md:flex-row space-x-0 md:space-x-14 mb-3")}>
+		<div class="flex flex-col w-full md:w-1/2 text-2xl md:ml-16 md:tracking-wide text-center md:text-left">
+			<h1 class="max-w-prose font-bold md:text-3xl lg:text-4xl mt-10 md:mt-20">We have a simple belief -</h1>
+			<h1 class="max-w-prose font-bold md:text-3xl lg:text-4xl">that life and love go hand in hand.</h1>
+			<p class="max-w-prose text-2xl md:text-3xl md:text-left mt-4 font-medium">
+				Here's life insurance that's more than just a policy. We've made sure that the products we
+				design help you live life well. PRULife is life insurance for what truly matters most to you
+				- your loved ones.
+			</p>
+			<p class="max-w-prose text-primary text-xl mt-3">
+				Because when it comes to life, don't leave it to chance. Leave it to us.
+			</p>
+		</div>
+		<!-- Image -->
+		<div class="flex w-full md:w-1/2">
+			<img src={grandfather} alt="grandfather" class="object-cover"/>
+		</div>
+	</div>
+	<div class={classNames("container hidden flex-col-reverse items-center px-6 mx-auto mt-14 space-y-0",
+		"md:space-y-0 md:flex-row ")}>
 		<!-- Left item -->
 		<div class="flex flex-col mb-32 space-y-4 md:w-1/2 md:mr-16">
 			<h1
