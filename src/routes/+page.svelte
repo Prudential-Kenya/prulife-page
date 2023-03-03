@@ -7,7 +7,7 @@
 	import * as yup from 'yup';
 	import dayjs from 'dayjs';
 
-	import { Button, Modal, Spinner, Toast } from 'flowbite-svelte';
+	import { Popover, Modal, Spinner, Toast } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
 	let defaultModal = false,
 		showError = false,
@@ -190,6 +190,11 @@
 	</div>
   </Modal>
 
+  <!-- Pop over -->
+  <Popover class="w-64 text-sm font-light " title="Critical illnes cover" triggeredBy="#p1">
+	A lump sum payment that is made to a customer to relieve them of financial strain caused by a first time diagnosis of a critical or terminal illness as defined in a policy
+</Popover>
+
   <!-- body -->
 
 <div class="bg-background">
@@ -337,6 +342,8 @@
 										class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
 									>
 								{/each}
+								<svg aria-hidden="true" class="w-5 h-5 fill-gray-500" id="p1" fill="gray" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+								
 							</div>
 						</div>
 						<!-- Term -->
