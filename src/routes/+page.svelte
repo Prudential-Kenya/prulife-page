@@ -25,8 +25,6 @@
 		minSA = 1000000,
 		maxSA = 150000000;
 
-
-		
 	const bands: any[] = [];
 	let isCalculating: boolean = false;
 
@@ -62,8 +60,6 @@
 		gender: ''
 	};
 
-	
-
 	let selectedSumAssured = 0;
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
@@ -95,8 +91,8 @@
 			}
 
 			payload = values;
-			selectedSumAssured = 0
-			
+			selectedSumAssured = 0;
+
 			getQuote();
 
 			// console.log(data);
@@ -132,7 +128,8 @@
 			},
 			payment_frequency: 'monthly',
 			amount_type: 'target-amount',
-			amount_value: sumAssured
+			amount_value: sumAssured,
+			client_quote: true
 		};
 
 		const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife';
@@ -155,49 +152,63 @@
 
 		if (data.status) {
 			calculatedValues = data.calcutatedValues;
-			selectedSumAssured = Math.floor(sumAssured)
+			selectedSumAssured = Math.floor(sumAssured);
 			defaultModal = true;
 		} else {
 			showError = true;
-			if(data.errors){
+			if (data.errors) {
 				let errors = '';
-			for (let i of data.errors) {
-				errors += i.msg;
-			}
-			errorMsg = errors;
-			}else {
-				errorMsg = data.message||'Rquest failed, please try again';
+				for (let i of data.errors) {
+					errors += i.msg;
+				}
+				errorMsg = errors;
+			} else {
+				errorMsg = data.message || 'Rquest failed, please try again';
 			}
 		}
 	}
-	function classNames(...classes: any){
+	function classNames(...classes: any) {
 		return classes.filter(Boolean).join(' ');
 	}
 	//const width = screen.width;
 	//console.log(width);
 </script>
 
-
-  <!-- Error modal -->
-  <Modal bind:open={showError} size="xs" autoclose>
+<!-- Error modal -->
+<Modal bind:open={showError} size="xs" autoclose>
 	<div class="text-center">
-		<svg aria-hidden="true" class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+		<svg
+			aria-hidden="true"
+			class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200"
+			fill="none"
+			stroke="currentColor"
+			viewBox="0 0 24 24"
+			xmlns="http://www.w3.org/2000/svg"
+			><path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="2"
+				d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+			/></svg
+		>
 		<h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{errorMsg}</h3>
 		<!-- <Button color="red" class="mr-2">Close</Button> -->
 		<button
-		on:click={() => (showError = false)}
-		class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2">
-		Close
-	</button>
+			on:click={() => (showError = false)}
+			class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
+		>
+			Close
+		</button>
 	</div>
-  </Modal>
+</Modal>
 
-  <!-- Pop over -->
-  <Popover class="w-64 text-sm font-light " title="Critical illnes cover" triggeredBy="#p1">
-	A lump sum payment that is made to a customer to relieve them of financial strain caused by a first time diagnosis of a critical or terminal illness as defined in a policy
+<!-- Pop over -->
+<Popover class="w-64 text-sm font-light " title="Critical illnes cover" triggeredBy="#p1">
+	A lump sum payment that is made to a customer to relieve them of financial strain caused by a
+	first time diagnosis of a critical or terminal illness as defined in a policy
 </Popover>
 
-  <!-- body -->
+<!-- body -->
 
 <div class="bg-background">
 	<!-- Banner Section -->
@@ -226,9 +237,13 @@
 	<!-- Calculator Section -->
 	<section id="calculator">
 		<!-- Flex Container -->
-		<div class={classNames("container flex w-full mx-auto px-6 mt-10")}>
-			<div class={classNames("flex flex-col md:flex-row w-full md:max-w-6xl items-center space-x-0",
-				"md:space-x-5 bg-secondary rounded-lg ml-0 md:ml-32")}>
+		<div class={classNames('container flex w-full mx-auto px-6 mt-10')}>
+			<div
+				class={classNames(
+					'flex flex-col md:flex-row w-full md:max-w-6xl items-center space-x-0',
+					'md:space-x-5 bg-secondary rounded-lg ml-0 md:ml-32'
+				)}
+			>
 				<!-- left image on web, hide on mobile -->
 				<div class="hidden relative md:flex md:w-1/3 md:-ml-20 mt-auto">
 					<div class="absolute bottom-0 w-full">
@@ -237,21 +252,29 @@
 				</div>
 				<!-- calculator -->
 				<div class="flex flex-col mb-0 w-full space-y-4 md:w-2/3 py-3">
-					<h1 class="flex w-full text-xl font-bold items-center justify-center px-3 md:px-0 md:text-3xl lg:text-4xl text-primary mt-3">
+					<h1
+						class="flex w-full text-xl font-bold items-center justify-center px-3 md:px-0 md:text-3xl lg:text-4xl text-primary mt-3"
+					>
 						Your life isn't worth nothing.
 					</h1>
-					<p class="flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-3xl lg:text-4xl text-primary">
+					<p
+						class="flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-3xl lg:text-4xl text-primary"
+					>
 						Your legacy is worth everything.
 					</p>
 					<!-- Form -->
-					<form on:submit={handleSubmit} class="flex flex-col w-full space-y-3 md:border p-6 rounded-lg">
+					<form
+						on:submit={handleSubmit}
+						class="flex flex-col w-full space-y-3 md:border p-6 rounded-lg"
+					>
 						<!-- Age -->
 						<div class="flex flex-col md:flex-row w-full items-center">
 							<label
 								for="age"
 								class="range block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/4"
-								>
-								Your age</label>
+							>
+								Your age</label
+							>
 							<div class="flex flex-row items-center w-full md:w-3/4">
 								<input
 									id="age"
@@ -273,8 +296,8 @@
 						</div>
 						<!-- Smoker -->
 						<div class="flex flex-col md:flex-row w-full items-center">
-							<label 
-								for="smoker" 
+							<label
+								for="smoker"
 								class="block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/4"
 								>Are you a smoker?</label
 							>
@@ -292,7 +315,8 @@
 										/>
 										<label
 											for={`smoker-${p}`}
-											class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
+											class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+											>{p}</label
 										>
 									{/each}
 								</div>
@@ -300,10 +324,11 @@
 						</div>
 						<!-- gender -->
 						<div class="flex flex-col md:flex-row w-full items-center">
-							<label 
-								for="gender" 
+							<label
+								for="gender"
 								class="block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/4"
-								>Your gender</label>
+								>Your gender</label
+							>
 							<div class="flex items-center w-full md:w-3/4">
 								<div class="flex items-center mr-4">
 									{#each genderOptions as p}
@@ -318,7 +343,8 @@
 										/>
 										<label
 											for={`gender-${p}`}
-											class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
+											class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+											>{p}</label
 										>
 									{/each}
 								</div>
@@ -326,7 +352,8 @@
 						</div>
 						<!-- Plan -->
 						<label for="plan" class="block text-base font-bold text-gray-900 dark:text-white"
-							>Choose your plan</label>
+							>Choose your plan</label
+						>
 						<div class="flex">
 							<div class="flex items-center mr-4">
 								{#each plans as p}
@@ -341,24 +368,37 @@
 									/>
 									<label
 										for={`plan-${p}`}
-										class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
+										class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+										>{p}</label
 									>
 								{/each}
-								<svg aria-hidden="true" class="w-5 h-5 fill-gray-500" id="p1" fill="gray" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-								
+								<svg
+									aria-hidden="true"
+									class="w-5 h-5 fill-gray-500"
+									id="p1"
+									fill="gray"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										fill-rule="evenodd"
+										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+										clip-rule="evenodd"
+									/></svg
+								>
 							</div>
 						</div>
 						<!-- Term -->
 						<div class="flex flex-col md:flex-row w-full items-center">
-							<label 
-								for="term" 
+							<label
+								for="term"
 								class="block text-base font-bold text-gray-900 dark:text-white w-full md:w-1/2"
-								>How long do you want to pay for your policy?</label>
+								>How long do you want to pay for your policy?</label
+							>
 							<select
 								id="term"
 								bind:value={$form.term}
 								class="bg-gray-50 border flex-grow border-gray-300 text-sm rounded-lg focus:ring-red-200 focus:border-red-200 block w-full p-2.5 md:w-1/4"
-								>
+							>
 								<!-- <option selected class="text-gray-400" value="" disabled
 									>How long do you want to save?</option
 								> -->
@@ -372,10 +412,11 @@
 						</div>
 						<!-- Name -->
 						<div class="flex flex-col md:flex-row w-full items-center">
-							<label 
-								for="name" 
+							<label
+								for="name"
 								class="block text-base justify-center font-bold text-gray-900 dark:text-white w-full md:w-1/2"
-								>Your name</label>
+								>Your name</label
+							>
 							<input
 								class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 w-full md:w-1/2"
 								id="name"
@@ -389,7 +430,8 @@
 							<label
 								for="email"
 								class="block text-base justify-center font-bold text-gray-900 dark:text-white w-full md:w-1/2"
-								>Your email address</label>
+								>Your email address</label
+							>
 							<input
 								class="rounded-lg bg-gray-50 appearance-none border border-gray-200 p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 w-full md:w-1/2"
 								id="email"
@@ -400,10 +442,11 @@
 						</div>
 						<!-- Phone -->
 						<div class="flex flex-col md:flex-row w-full items-center">
-							<label 
-								for="phone" 
+							<label
+								for="phone"
 								class="block text-base justify-center font-bold text-gray-900 dark:text-white w-full md:w-1/2"
-								>Your phone number (Optional)</label>
+								>Your phone number (Optional)</label
+							>
 							<input
 								class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 w-full md:w-1/2"
 								id="phone"
@@ -465,8 +508,11 @@
 			</div>
 		</div>
 		<div
-			class={classNames("hidden container max-w-3xl lg:max-w-7xl rounded-xl justify-center px-6",
-				"mx-auto mt-10 space-y-0 md:space-y-0 bg-secondary hover:shadow-md  md:flex-row items-stretch")}>
+			class={classNames(
+				'hidden container max-w-3xl lg:max-w-7xl rounded-xl justify-center px-6',
+				'mx-auto mt-10 space-y-0 md:space-y-0 bg-secondary hover:shadow-md  md:flex-row items-stretch'
+			)}
+		>
 			<!-- Left item -->
 			<div
 				class=" hidden  justify-items-stretch  align-bottom  lg:items-end  lg:-ml-52 lg:flex lg:w-1/2"
@@ -484,7 +530,10 @@
 					Your legacy is worth everything
 				</p>
 				<!-- Form -->
-				<form on:submit={handleSubmit} class="flex flex-col  w-full min-w-full border p-6 rounded-lg">
+				<form
+					on:submit={handleSubmit}
+					class="flex flex-col  w-full min-w-full border p-6 rounded-lg"
+				>
 					<!-- Age -->
 					<label
 						for="age"
@@ -697,10 +746,9 @@
 <!-- Modal - calculator response -->
 <Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
 	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-		If you accept this quotation, one of our financial advisors will contact you to
-		walk you through the cover details and additional options.
-	</p
-	>
+		If you accept this quotation, one of our financial advisors will contact you to walk you through
+		the cover details and additional options.
+	</p>
 	<ul class="my-4 space-y-3">
 		<li>
 			<div
@@ -724,7 +772,6 @@
 				>
 			</div>
 		</li>
-		
 	</ul>
 	<!-- recalculate -->
 	<div class=" bg-gray-100 p-5 rounded-xl ">
@@ -756,7 +803,6 @@
 			{/if}
 		</div>
 	</div>
-	
 
 	<svelte:fragment slot="footer">
 		<button
@@ -776,22 +822,30 @@
 <!-- Hero Section -->
 <section id="hero">
 	<!-- Flex Container -->
-	<div class={classNames("container flex flex-col-reverse items-center px-6 mx-auto mt-14 space-y-0",
-		"md:space-y-0 md:flex-row ")}>
+	<div
+		class={classNames(
+			'container flex flex-col-reverse items-center px-6 mx-auto mt-14 space-y-0',
+			'md:space-y-0 md:flex-row '
+		)}
+	>
 		<!-- Left item -->
 		<div class="flex flex-col space-y-4 w-full md:w-1/2 md:mr-16">
 			<div
 				class="flex flex-col mt-6 md:mt-0 max-w-prose text-2xl font-bold text-center md:text-3xl md:text-left md:tracking-wide"
 			>
-				<h3 class="md:text-3xl lg:text-4xl leading-loose">We have a simple belief - </h3>
+				<h3 class="md:text-3xl lg:text-4xl leading-loose">We have a simple belief -</h3>
 				<h3 class=" md:text-3xl lg:text-4xl leading-loose">that life and love go hand in hand.</h3>
 			</div>
-			<p class="flex max-w-prose text-center text-xl md:text-3xl md:text-left font-medium md:mt-2 leading-loose">
+			<p
+				class="flex max-w-prose text-center text-xl md:text-3xl md:text-left font-medium md:mt-2 leading-loose"
+			>
 				Here's life insurance that's more than just a policy. We've made sure that the products we
 				design help you live life well. PRULife is life insurance for what truly matters most to you
 				- your loved ones.
 			</p>
-			<p class="flex max-w-prose text-center text-primary text-xl md:text-3xl md:text-left md:mt-2 leading-loose">
+			<p
+				class="flex max-w-prose text-center text-primary text-xl md:text-3xl md:text-left md:mt-2 leading-loose"
+			>
 				Because when it comes to life, don't leave it to chance. Leave it to us.
 			</p>
 		</div>
