@@ -697,8 +697,8 @@
 <!-- Modal - calculator response -->
 <Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
 	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-		If you accept this quotation, one of our customer service representatives will contact you to
-		walk you through the coverage process.
+		If you accept this quotation, one of our financial advisors will contact you to
+		walk you through the cover details and additional options.
 	</p
 	>
 	<ul class="my-4 space-y-3">
@@ -707,7 +707,7 @@
 				class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
 				<Indicator color="teal" />
-				<span class="flex-1 ml-3 whitespace-nowrap">Sum assured</span>
+				<span class="flex-1 ml-3 whitespace-nowrap">Cover amount</span>
 				<span class="inline-flex ml-3 whitespace-nowrap"
 					>KES {Number(calculatedValues.sum_assured).toLocaleString()}</span
 				>
@@ -729,7 +729,7 @@
 	<!-- recalculate -->
 	<div class=" bg-gray-100 p-5 rounded-xl ">
 		<label for="sa" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-			>Change sum assured?
+			>Change cover amount?
 		</label>
 		<div class="flex items-center  gap-5">
 			<input
@@ -756,9 +756,7 @@
 			{/if}
 		</div>
 	</div>
-	<p class="text-xs font-normal text-gray-500 dark:text-gray-400">
-		The calculator assumes that your fund pays an annual management charge of 1% per annum. In addition, a 5% contribution charge is assumed to be paid on each regular contribution (based on Standard PRSA fees and charges maximum limits). You should contact your pension provider to confirm what charges you are actually paying as these can have a significant effect on your retirement fund which determines your retirement income. Please refer to the fees and charges section of our website for further detail.
-	</p>
+	
 
 	<svelte:fragment slot="footer">
 		<button
