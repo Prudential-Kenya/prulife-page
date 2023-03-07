@@ -6,12 +6,13 @@
 	import * as yup from 'yup';
 	import dayjs from 'dayjs';
 
-	import { Popover, Modal, Spinner,Datepicker } from 'flowbite-svelte';
+	import { Popover, Modal, Spinner, Datepicker } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
 	let defaultModal = false,
 		showError = false,
 		errorMsg = '';
 
+	const guide = 'Choose your convenient date and time and we will contact you';
 
 	const plans = [
 		// 'Plan A (Life Protection only)',
@@ -19,7 +20,7 @@
 		'Plan B (Life Protection with critical illness cover)'
 	];
 	const options = ['Yes', 'No'];
-	const genderOptions = [ 'Female','Male'];
+	const genderOptions = ['Female', 'Male'];
 	const bandSize = 6,
 		minAge = 18,
 		maxAge = 60,
@@ -60,9 +61,13 @@
 		smoker: 'No',
 		gender: ''
 	};
-	const today = new Date().toISOString().split('T')[0];
+	const today = new Date().toISOString()//.split('T')[0];
 
-	let selectedSumAssured = 0, selectedPremium = 0, mobile ='', date ='', usePremium = false;
+	let selectedSumAssured = 0,
+		selectedPremium = 0,
+		mobile = '',
+		date = '',
+		usePremium = false;
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues: payload,
@@ -95,7 +100,7 @@
 			payload = values;
 			selectedSumAssured = 0;
 			selectedPremium = 0;
-			usePremium = false;// only use SA on the main form
+			usePremium = false; // only use SA on the main form
 
 			getQuote();
 
@@ -118,7 +123,6 @@
 		const sumAssured =
 			selectedSumAssured ||
 			bands.find((dt) => payload.age >= dt.minAge && payload.age <= dt.maxAge).sa;
-		
 
 		const reqPayload = {
 			request_type: 'calculated-figures',
@@ -131,12 +135,12 @@
 				status: payload.smoker == 'Yes' ? 'smoker' : 'non-smoker'
 			},
 			payment_frequency: 'monthly',
-			amount_type:  usePremium?'affordable-premium':'target-amount',
-			amount_value: usePremium? selectedPremium: sumAssured,
+			amount_type: usePremium ? 'affordable-premium' : 'target-amount',
+			amount_value: usePremium ? selectedPremium : sumAssured,
 			client_quote: true
 		};
 
-		console.log(reqPayload)
+		console.log(reqPayload);
 
 		const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife';
 		const response = await fetch(url, {
@@ -173,16 +177,13 @@
 			}
 		}
 	}
-	
+
 	function classNames(...classes: any) {
 		return classes.filter(Boolean).join(' ');
 	}
 	//const width = screen.width;
 	//console.log(width);
 </script>
-
-
-
 
 <!-- Error modal -->
 <Modal bind:open={showError} size="xs" autoclose>
@@ -221,8 +222,8 @@
 <!-- Modal - calculator response -->
 <Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
 	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-		Once you accept this quotation, we will reach out to you to walk you through
-		the cover details and additional options.
+		Once you accept this quotation, we will reach out to you to walk you through the cover details
+		and additional options.
 	</p>
 	<ul class="my-0 space-y-3 ">
 		<li>
@@ -234,12 +235,13 @@
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
-				<input
-				class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
-				id="sa"
-				bind:value={selectedSumAssured}
-				on:blur={()=> usePremium =false}
-				type="number"/>
+					<input
+						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+						id="sa"
+						bind:value={selectedSumAssured}
+						on:blur={() => (usePremium = false)}
+						type="number"
+					/>
 				</div>
 			</div>
 		</li>
@@ -252,61 +254,64 @@
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
-				<input
-				class=" rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
-				id="premium"
-				bind:value={selectedPremium}
-				on:blur={()=> usePremium =true}
-				type="number"/>
+					<input
+						class=" rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+						id="premium"
+						bind:value={selectedPremium}
+						on:blur={() => (usePremium = true)}
+						type="number"
+					/>
 				</div>
 			</div>
 		</li>
-		
 	</ul>
 
 	{#if isCalculating}
-				<button
-					class="flex-1 mb-5  hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center"
-				>
-					<Spinner class="mr-3" size="4" />
-					Re-calculating ...
-				</button>
-			{:else}
-				<button
-					type="button"
-					on:click={getQuote}
-					class="flex-1 mb-5 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center "
-					>Re-calculate</button
-				>
-			{/if}
+		<button
+			class="flex-1 mb-5  hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center"
+		>
+			<Spinner class="mr-3" size="4" />
+			Re-calculating ...
+		</button>
+	{:else}
+		<button
+			type="button"
+			on:click={getQuote}
+			class="flex-1 mb-5 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center "
+			>Re-calculate</button
+		>
+	{/if}
 
-
-	<!-- recalculate -->
+	<!-- contact info -->
+	<p class="font-normal text-gray-500 dark:text-gray-400">
+		{guide}
+	</p>
 	<div class=" bg-gray-100 p-5 rounded-xl ">
 		<div class="flex gap-5">
 			<div class="flex flex-col flex-1">
-				<label for="mobile" class=" mb-2 text-base font-bold text-gray-900 dark:text-white">Phone number
+				<label for="mobile" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
+					>Phone number
 				</label>
 				<input
-						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
-						id="mobile"
-						bind:value={mobile}
-						type="text"
-					/>
-					</div>
-					<div class="flex flex-col flex-1">
-						<label for="date" class=" mb-2 text-base font-bold text-gray-900 dark:text-white">Date
-						</label>
-						<input
-								class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
-								id="date"
-								bind:value={date}
-								min={today}
-								type="date"
-							/>
-					</div>
+					class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+					id="mobile"
+					bind:value={mobile}
+					type="text"
+				/>
 			</div>
-			
+			<div class="flex flex-col flex-1">
+				<label for="date" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
+					>Date and Time
+				</label>
+				<input
+					class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+					id="date"
+					bind:value={date}
+					min={today}
+					type="datetime-local"
+				/>
+			</div>
+		</div>
 	</div>
 
 	<svelte:fragment slot="footer">
@@ -344,7 +349,7 @@
 		<div class="container flex px-6 mx-auto my-10 md:my-16 justify-center items-center">
 			<div class="flex flex-col text-2xl font-bold text-center md:text-3xl lg:text-5xl">
 				<h1>Get the only life insurance cover that</h1>
-				<h1>you don't have to pay for for life.</h1>
+				<h1>you don't have to pay for, for life.</h1>
 			</div>
 		</div>
 	</section>
@@ -370,12 +375,12 @@
 					<h1
 						class="flex w-full text-xl font-bold items-center justify-center px-3 md:px-0 md:text-3xl lg:text-4xl text-primary mt-3"
 					>
-						Your life isn't worth nothing.
+						Your life is worth something
 					</h1>
 					<p
-						class="flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-3xl lg:text-4xl text-primary"
+						class="flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-2xl lg:text-3xl text-primary"
 					>
-						Your legacy is worth everything.
+						We can't really put a figure to it, but we can't leave it at zero
 					</p>
 					<!-- Form -->
 					<form
@@ -555,7 +560,7 @@
 								bind:value={$form.email}
 							/>
 						</div>
-						
+
 						{#if $errors.smoker}
 							<div class="flex items-center space-x-3">
 								<Indicator size={'xs'} color="red" />
@@ -622,8 +627,9 @@
 			</div>
 			<!-- Calculator -->
 			<div class="flex flex-col mb-32 space-y-4 md:w-auto py-6 lg:ml-10">
+				
 				<h1
-					class="max-w-prose text-2xl font-bold text-center md:text-3xl text-primary md:text-left"
+					class="max-w-prose text-2xl font-bold text-center md:text-2xl text-primary md:text-left"
 				>
 					Your life isn't worth nothing
 				</h1>
@@ -778,7 +784,7 @@
 						on:change={handleChange}
 						bind:value={$form.email}
 					/>
-					
+
 					{#if $errors.smoker}
 						<div class="flex items-center space-x-3">
 							<Indicator size={'xs'} color="red" />
@@ -833,11 +839,8 @@
 	</section>
 </div>
 
-
 <!-- Hero Section -->
 <section id="hero">
-	
-
 	<!-- Flex Container -->
 	<div
 		class={classNames(
