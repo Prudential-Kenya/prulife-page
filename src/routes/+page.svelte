@@ -2,23 +2,24 @@
 	import { createForm } from 'svelte-forms-lib';
 	import family from '$lib/images/mother_childv2.png';
 	import grandfather from '$lib/images/grandfather.png';
-	import bannerImg from '$lib/images/banner.png';
 	import bannerImg1 from '$lib/images/banner-2.png';
 	import * as yup from 'yup';
 	import dayjs from 'dayjs';
 
-	import { Popover, Modal, Spinner, Toast } from 'flowbite-svelte';
+	import { Popover, Modal, Spinner,Datepicker } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
 	let defaultModal = false,
 		showError = false,
 		errorMsg = '';
 
+
 	const plans = [
-		'Plan A (Life Protection only)',
+		// 'Plan A (Life Protection only)',
+		'Build My Plan',
 		'Plan B (Life Protection with critical illness cover)'
 	];
 	const options = ['Yes', 'No'];
-	const genderOptions = ['Male', 'Female'];
+	const genderOptions = [ 'Female','Male'];
 	const bandSize = 6,
 		minAge = 18,
 		maxAge = 60,
@@ -56,11 +57,12 @@
 		name: '',
 		phone: '',
 		email: '',
-		smoker: '',
+		smoker: 'No',
 		gender: ''
 	};
+	const today = new Date().toISOString().split('T')[0];
 
-	let selectedSumAssured = 0;
+	let selectedSumAssured = 0, selectedPremium = 0, mobile ='', date ='', usePremium = false;
 
 	const { form, errors, handleChange, handleSubmit } = createForm({
 		initialValues: payload,
@@ -92,6 +94,8 @@
 
 			payload = values;
 			selectedSumAssured = 0;
+			selectedPremium = 0;
+			usePremium = false;// only use SA on the main form
 
 			getQuote();
 
@@ -101,7 +105,6 @@
 
 	async function getQuote() {
 		isCalculating = true;
-		// alert(JSON.stringify(values, null, 2));
 		let plan_type = 'plan-a';
 		if (payload.plan.toLocaleLowerCase().includes('plan b')) {
 			plan_type = 'plan-b';
@@ -115,6 +118,7 @@
 		const sumAssured =
 			selectedSumAssured ||
 			bands.find((dt) => payload.age >= dt.minAge && payload.age <= dt.maxAge).sa;
+		
 
 		const reqPayload = {
 			request_type: 'calculated-figures',
@@ -127,10 +131,12 @@
 				status: payload.smoker == 'Yes' ? 'smoker' : 'non-smoker'
 			},
 			payment_frequency: 'monthly',
-			amount_type: 'target-amount',
-			amount_value: sumAssured,
+			amount_type:  usePremium?'affordable-premium':'target-amount',
+			amount_value: usePremium? selectedPremium: sumAssured,
 			client_quote: true
 		};
+
+		console.log(reqPayload)
 
 		const url = 'https://api-calculator.prudentiallife.co.ke/api/v1/prulife';
 		const response = await fetch(url, {
@@ -140,7 +146,6 @@
 				email: 'info@prudentiallife.co.ke',
 				'pass-Key': 'SKYY7-BEFK2-A4HBU-XDVYW-EJ4VF'
 			},
-			// mode:'no-cors',
 			body: JSON.stringify(reqPayload)
 		}).catch((err) => {
 			console.log(err);
@@ -152,7 +157,8 @@
 
 		if (data.status) {
 			calculatedValues = data.calcutatedValues;
-			selectedSumAssured = Math.floor(sumAssured);
+			selectedSumAssured = Math.floor(calculatedValues.sum_assured);
+			selectedPremium = Math.floor(calculatedValues.total_payable);
 			defaultModal = true;
 		} else {
 			showError = true;
@@ -163,16 +169,20 @@
 				}
 				errorMsg = errors;
 			} else {
-				errorMsg = data.message || 'Rquest failed, please try again';
+				errorMsg = data.message || 'Request failed, please try again';
 			}
 		}
 	}
+	
 	function classNames(...classes: any) {
 		return classes.filter(Boolean).join(' ');
 	}
 	//const width = screen.width;
 	//console.log(width);
 </script>
+
+
+
 
 <!-- Error modal -->
 <Modal bind:open={showError} size="xs" autoclose>
@@ -208,8 +218,113 @@
 	first time diagnosis of a critical or terminal illness as defined in a policy
 </Popover>
 
-<!-- body -->
+<!-- Modal - calculator response -->
+<Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
+	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+		Once you accept this quotation, we will reach out to you to walk you through
+		the cover details and additional options.
+	</p>
+	<ul class="my-0 space-y-3 ">
+		<li>
+			<div
+				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+			>
+				<Indicator color="teal" />
+				<span class="flex-1 ml-3 whitespace-nowrap">Cover amount</span>
+				<div class="flex-2">
+					<span class=" ml-3 whitespace-nowrap">KES</span>
+					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
+				<input
+				class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+				id="sa"
+				bind:value={selectedSumAssured}
+				on:blur={()=> usePremium =false}
+				type="number"/>
+				</div>
+			</div>
+		</li>
+		<li>
+			<div
+				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+			>
+				<Indicator color="teal" />
+				<span class="flex-1 ml-3 whitespace-nowrap">Monthly premium</span>
+				<div class="flex-2">
+					<span class=" ml-3 whitespace-nowrap">KES</span>
+					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
+				<input
+				class=" rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+				id="premium"
+				bind:value={selectedPremium}
+				on:blur={()=> usePremium =true}
+				type="number"/>
+				</div>
+			</div>
+		</li>
+		
+	</ul>
 
+	{#if isCalculating}
+				<button
+					class="flex-1 mb-5  hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center"
+				>
+					<Spinner class="mr-3" size="4" />
+					Re-calculating ...
+				</button>
+			{:else}
+				<button
+					type="button"
+					on:click={getQuote}
+					class="flex-1 mb-5 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center "
+					>Re-calculate</button
+				>
+			{/if}
+
+
+	<!-- recalculate -->
+	<div class=" bg-gray-100 p-5 rounded-xl ">
+		<div class="flex gap-5">
+			<div class="flex flex-col flex-1">
+				<label for="mobile" class=" mb-2 text-base font-bold text-gray-900 dark:text-white">Phone number
+				</label>
+				<input
+						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+						id="mobile"
+						bind:value={mobile}
+						type="text"
+					/>
+					</div>
+					<div class="flex flex-col flex-1">
+						<label for="date" class=" mb-2 text-base font-bold text-gray-900 dark:text-white">Date
+						</label>
+						<input
+								class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+								id="date"
+								bind:value={date}
+								min={today}
+								type="date"
+							/>
+					</div>
+			</div>
+			
+	</div>
+
+	<svelte:fragment slot="footer">
+		<button
+			on:click={() => (defaultModal = false)}
+			class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-8 py-2.5 text-center mr-2 mb-2"
+		>
+			Proceed
+		</button>
+		<!-- <button
+			class=" text-gray-800 bg-transparent border border-gray-200 hover:bg-red-100 hover:text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
+		>
+			Close
+		</button> -->
+	</svelte:fragment>
+</Modal>
+
+<!-- body -->
 <div class="bg-background">
 	<!-- Banner Section -->
 	<section id="banner">
@@ -440,21 +555,7 @@
 								bind:value={$form.email}
 							/>
 						</div>
-						<!-- Phone -->
-						<div class="flex flex-col md:flex-row w-full items-center">
-							<label
-								for="phone"
-								class="block text-base justify-center font-bold text-gray-900 dark:text-white w-full md:w-1/2"
-								>Your phone number (Optional)</label
-							>
-							<input
-								class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 w-full md:w-1/2"
-								id="phone"
-								type="text"
-								on:change={handleChange}
-								bind:value={$form.phone}
-							/>
-						</div>
+						
 						{#if $errors.smoker}
 							<div class="flex items-center space-x-3">
 								<Indicator size={'xs'} color="red" />
@@ -677,18 +778,7 @@
 						on:change={handleChange}
 						bind:value={$form.email}
 					/>
-
-					<!-- Phone -->
-					<label for="phone" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-						>Your phone number (Optional)</label
-					>
-					<input
-						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 mb-5"
-						id="phone"
-						type="text"
-						on:change={handleChange}
-						bind:value={$form.phone}
-					/>
+					
 					{#if $errors.smoker}
 						<div class="flex items-center space-x-3">
 							<Indicator size={'xs'} color="red" />
@@ -743,84 +833,11 @@
 	</section>
 </div>
 
-<!-- Modal - calculator response -->
-<Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
-	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-		If you accept this quotation, one of our financial advisors will contact you to walk you through
-		the cover details and additional options.
-	</p>
-	<ul class="my-4 space-y-3">
-		<li>
-			<div
-				class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-			>
-				<Indicator color="teal" />
-				<span class="flex-1 ml-3 whitespace-nowrap">Cover amount</span>
-				<span class="inline-flex ml-3 whitespace-nowrap"
-					>KES {Number(calculatedValues.sum_assured).toLocaleString()}</span
-				>
-			</div>
-		</li>
-		<li>
-			<div
-				class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-			>
-				<Indicator color="teal" />
-				<span class="flex-1 ml-3 whitespace-nowrap">Monthly premium</span>
-				<span class="inline-flex ml-3 whitespace-nowrap"
-					>KES {Number(calculatedValues.total_payable).toLocaleString()}</span
-				>
-			</div>
-		</li>
-	</ul>
-	<!-- recalculate -->
-	<div class=" bg-gray-100 p-5 rounded-xl ">
-		<label for="sa" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-			>Change cover amount?
-		</label>
-		<div class="flex items-center  gap-5">
-			<input
-				class=" flex-auto  rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
-				id="sa"
-				bind:value={selectedSumAssured}
-				type="number"
-			/>
-
-			{#if isCalculating}
-				<button
-					class="flex-1 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center"
-				>
-					<Spinner class="mr-3" size="4" />
-					Re-calculating ...
-				</button>
-			{:else}
-				<button
-					type="button"
-					on:click={getQuote}
-					class="flex-1 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center "
-					>Re-calculate</button
-				>
-			{/if}
-		</div>
-	</div>
-
-	<svelte:fragment slot="footer">
-		<button
-			on:click={() => (defaultModal = false)}
-			class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
-		>
-			I accept
-		</button>
-		<button
-			class=" text-gray-800 bg-transparent border border-gray-200 hover:bg-red-100 hover:text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
-		>
-			Decline
-		</button>
-	</svelte:fragment>
-</Modal>
 
 <!-- Hero Section -->
 <section id="hero">
+	
+
 	<!-- Flex Container -->
 	<div
 		class={classNames(
