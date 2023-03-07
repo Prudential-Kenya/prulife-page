@@ -371,16 +371,19 @@
 					</div>
 				</div>
 				<!-- calculator -->
-				<div class="flex flex-col mb-0 w-full space-y-4 md:w-2/3 py-3">
+				<div class="flex flex-col mb-0 w-full space-y-3 md:w-2/3 py-3">
 					<h1
 						class="flex w-full text-xl font-bold items-center justify-center px-3 md:px-0 md:text-3xl lg:text-4xl text-primary mt-3"
 					>
 						Your life is worth something
 					</h1>
+					<h1 class={classNames("flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-2xl")}>
+						We can't really put a figure to it,
+					</h1>
 					<p
 						class="flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-2xl lg:text-3xl text-primary"
 					>
-						We can't really put a figure to it, but we can't leave it at zero
+						but we can't leave it at zero
 					</p>
 					<!-- Form -->
 					<form
@@ -611,229 +614,6 @@
 						</div>
 					</form>
 				</div>
-			</div>
-		</div>
-		<div
-			class={classNames(
-				'hidden container max-w-3xl lg:max-w-7xl rounded-xl justify-center px-6',
-				'mx-auto mt-10 space-y-0 md:space-y-0 bg-secondary hover:shadow-md  md:flex-row items-stretch'
-			)}
-		>
-			<!-- Left item -->
-			<div
-				class=" hidden  justify-items-stretch  align-bottom  lg:items-end  lg:-ml-52 lg:flex lg:w-1/2"
-			>
-				<img src={family} alt="family" class="object-cover object-bottom" />
-			</div>
-			<!-- Calculator -->
-			<div class="flex flex-col mb-32 space-y-4 md:w-auto py-6 lg:ml-10">
-				
-				<h1
-					class="max-w-prose text-2xl font-bold text-center md:text-2xl text-primary md:text-left"
-				>
-					Your life isn't worth nothing
-				</h1>
-				<p class="max-w-prose text-center text-xl md:text-2xl text-primary mb-20 md:text-left">
-					Your legacy is worth everything
-				</p>
-				<!-- Form -->
-				<form
-					on:submit={handleSubmit}
-					class="flex flex-col  w-full min-w-full border p-6 rounded-lg"
-				>
-					<!-- Age -->
-					<label
-						for="age"
-						class="range block mb-2 text-base  font-bold text-gray-900 dark:text-white"
-						>Your age</label
-					>
-					<div class="flex flex-row items-center mb-5">
-						<input
-							id="age"
-							type="range"
-							min="18"
-							max="60"
-							on:change={handleChange}
-							bind:value={$form.age}
-							class="basis-11/12 h-2 bg-white rounded-lg appearance-none cursor-pointer accent-green-500"
-						/>
-
-						<input
-							class=" flex items-center basis-1/12 ml-4 rounded-lg bg-gray-50 appearance-none border border-gray-200  py-2 px-2 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 "
-							id="age"
-							type="number"
-							on:change={handleChange}
-							bind:value={$form.age}
-						/>
-					</div>
-
-					<!-- Smoker -->
-					<label for="smoker" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-						>Are you a smoker?</label
-					>
-					<div class="flex mb-5">
-						<div class="flex items-center mr-4">
-							{#each options as p}
-								<input
-									type="radio"
-									name="smoker"
-									id={`smoker-${p}`}
-									value={p}
-									on:change={handleChange}
-									checked={$form.smoker == p}
-									class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-								/>
-								<label
-									for={`smoker-${p}`}
-									class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
-								>
-							{/each}
-						</div>
-					</div>
-
-					<!-- gender -->
-					<label for="gender" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-						>Your gender</label
-					>
-					<div class="flex mb-5">
-						<div class="flex items-center mr-4">
-							{#each genderOptions as p}
-								<input
-									type="radio"
-									name="gender"
-									id={`gender-${p}`}
-									value={p}
-									on:change={handleChange}
-									checked={$form.gender == p}
-									class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-								/>
-								<label
-									for={`gender-${p}`}
-									class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
-								>
-							{/each}
-						</div>
-					</div>
-
-					<!-- Plan -->
-					<label for="plan" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-						>Choose your plan</label
-					>
-					<div class="flex mb-5">
-						<div class="flex items-center mr-4">
-							{#each plans as p}
-								<input
-									type="radio"
-									name="plan"
-									id={`plan-${p}`}
-									value={p}
-									on:change={handleChange}
-									checked={$form.plan == p}
-									class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 "
-								/>
-								<label
-									for={`plan-${p}`}
-									class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{p}</label
-								>
-							{/each}
-						</div>
-					</div>
-
-					<!-- Term -->
-					<label for="term" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-						>How long do you want to pay for your policy?</label
-					>
-					<select
-						id="term"
-						bind:value={$form.term}
-						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-200 focus:border-red-200 block w-full p-2.5 mb-5"
-					>
-						<!-- <option selected class="text-gray-400" value="" disabled
-							>How long do you want to save?</option
-						> -->
-						<option value="10_years">For 10 Years</option>
-						<option value="15_years">For 15 Years</option>
-						<option value="20_years">For 20 Years</option>
-						<option value="to_age_60">Up to age 60</option>
-						<option value="to_age_65">Up to age 65</option>
-						<option value="whole_life">My whole life</option>
-					</select>
-
-					<!-- Name -->
-					<label for="name" class="block mb-2 text-base font-bold text-gray-900 dark:text-white"
-						>Your name</label
-					>
-					<input
-						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 "
-						id="name"
-						type="text"
-						on:change={handleChange}
-						bind:value={$form.name}
-					/>
-
-					<!-- Email -->
-					<label
-						for="email"
-						class="block mb-2 text-base font-bold text-gray-900 dark:text-white mt-5"
-						>Your email address</label
-					>
-					<input
-						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200 mb-5"
-						id="email"
-						type="text"
-						on:change={handleChange}
-						bind:value={$form.email}
-					/>
-
-					{#if $errors.smoker}
-						<div class="flex items-center space-x-3">
-							<Indicator size={'xs'} color="red" />
-							<small class="text-primary">{$errors.smoker}</small>
-						</div>
-					{/if}
-					{#if $errors.gender}
-						<div class="flex items-center space-x-3">
-							<Indicator size={'xs'} color="red" />
-							<small class="text-primary">{$errors.gender}</small>
-						</div>
-					{/if}
-					{#if $errors.plan}
-						<div class="flex items-center space-x-3">
-							<Indicator size={'xs'} color="red" />
-							<small class="text-primary">{$errors.plan}</small>
-						</div>
-					{/if}
-					{#if $errors.name}
-						<div class="flex items-center space-x-3">
-							<Indicator size={'xs'} color="red" />
-							<small class="text-primary">{$errors.name}</small>
-						</div>
-					{/if}
-					{#if $errors.email}
-						<div class="flex items-center space-x-3">
-							<Indicator size={'xs'} color="red" />
-							<small class="text-primary">{$errors.email}</small>
-						</div>
-					{/if}
-
-					<!-- Submit -->
-					<div>
-						{#if isCalculating}
-							<button
-								class=" text-white mt-2 bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
-							>
-								<Spinner class="mr-3" size="4" />
-								Calculating ...
-							</button>
-						{:else}
-							<button
-								type="submit"
-								class=" text-white mt-2 bg-primary hover:bg-red-400 font-medium rounded-full text-sm px-10 py-2.5 text-center mr-2 mb-2"
-								>Calculate</button
-							>
-						{/if}
-					</div>
-				</form>
 			</div>
 		</div>
 	</section>
