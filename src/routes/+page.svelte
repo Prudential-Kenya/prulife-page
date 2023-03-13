@@ -403,16 +403,19 @@
 					</div>
 				</div>
 				<!-- calculator -->
-				<div class="flex flex-col mb-0 w-full space-y-4 md:w-2/3 py-3">
+				<div class="flex flex-col mb-0 w-full space-y-3 md:w-2/3 py-3">
 					<h1
 						class="flex w-full text-xl font-bold items-center justify-center px-3 md:px-0 md:text-3xl lg:text-4xl text-primary mt-3"
 					>
 						Your life is worth something
 					</h1>
+					<h1 class={classNames("flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-2xl")}>
+						We can't really put a figure to it,
+					</h1>
 					<p
 						class="flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-2xl lg:text-3xl text-primary"
 					>
-						We can't really put a figure to it, but we can't leave it at zero
+						but we can't leave it at zero
 					</p>
 					<!-- Form -->
 					<form
@@ -645,6 +648,7 @@
 				</div>
 			</div>
 		</div>
+<<<<<<< HEAD
 		<div
 			class={classNames(
 				'hidden container max-w-3xl lg:max-w-7xl rounded-xl justify-center px-6',
@@ -867,6 +871,8 @@
 				</form>
 			</div>
 		</div>
+=======
+>>>>>>> 20fe17c1df85dae91ab5fc3d30ec47fed5436076
 	</section>
 </div>
 
