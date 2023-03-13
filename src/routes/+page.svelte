@@ -8,6 +8,7 @@
 
 	import { Popover, Modal, Spinner, Datepicker } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
+	// import { saveLead, type LeadPayload } from './page';
 	let defaultModal = false,
 		showError = false,
 		errorMsg = '';
@@ -61,7 +62,7 @@
 		smoker: 'No',
 		gender: ''
 	};
-	const today = new Date().toISOString()//.split('T')[0];
+	const today = new Date().toISOString(); //.split('T')[0];
 
 	let selectedSumAssured = 0,
 		selectedPremium = 0,
@@ -102,13 +103,13 @@
 			selectedPremium = 0;
 			usePremium = false; // only use SA on the main form
 
-			getQuote();
+			getQuote(false);
 
 			// console.log(data);
 		}
 	});
 
-	async function getQuote() {
+	async function getQuote(emailQuote: boolean) {
 		isCalculating = true;
 		let plan_type = 'plan-a';
 		if (payload.plan.toLocaleLowerCase().includes('plan b')) {
@@ -125,7 +126,7 @@
 			bands.find((dt) => payload.age >= dt.minAge && payload.age <= dt.maxAge).sa;
 
 		const reqPayload = {
-			request_type: 'calculated-figures',
+			request_type: emailQuote ? 'email-quote' : 'calculated-figures',
 			plan_type,
 			application_type: 'single',
 			premium_term: payload.term.replaceAll('_', ' '),
@@ -134,6 +135,8 @@
 				gender: payload.gender.toLocaleLowerCase(),
 				status: payload.smoker == 'Yes' ? 'smoker' : 'non-smoker'
 			},
+			client_name: payload.name,
+			client_email: payload.email,
 			payment_frequency: 'monthly',
 			amount_type: usePremium ? 'affordable-premium' : 'target-amount',
 			amount_value: usePremium ? selectedPremium : sumAssured,
@@ -176,6 +179,35 @@
 				errorMsg = data.message || 'Request failed, please try again';
 			}
 		}
+	}
+
+	async function saveLeadToDb() {
+		if (!mobile || !date) {
+			return;
+		}
+		let fname = $form.name.split(' ')[0].trim();
+		let lname = $form.name.split(' ')[1].trim();
+		// const payload: LeadPayload = {
+		// 	fname,
+		// 	lname,
+		// 	email: $form.email,
+		// 	mnumber: mobile,
+		// 	campaign: 'PRULife Campaign 2023',
+		// 	isDigital: true,
+		// 	is_from_agent: false,
+		// 	source: 'Microsite'
+		// };
+
+		await getQuote(true);
+
+		// const res = await saveLead(payload);
+		// console.log(res);
+
+		// if (res.success) {
+		// 	//close modal
+		// } else {
+		// 	// allow re-submission
+		// }
 	}
 
 	function classNames(...classes: any) {
@@ -276,7 +308,7 @@
 	{:else}
 		<button
 			type="button"
-			on:click={getQuote}
+			on:click={() => getQuote(false)}
 			class="flex-1 mb-5 hover:text-gray-50 hover:bg-primary border border-gray-200 bg-red-100 text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center "
 			>Re-calculate</button
 		>
@@ -316,7 +348,7 @@
 
 	<svelte:fragment slot="footer">
 		<button
-			on:click={() => (defaultModal = false)}
+			on:click={saveLeadToDb}
 			class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-8 py-2.5 text-center mr-2 mb-2"
 		>
 			Proceed
@@ -627,7 +659,6 @@
 			</div>
 			<!-- Calculator -->
 			<div class="flex flex-col mb-32 space-y-4 md:w-auto py-6 lg:ml-10">
-				
 				<h1
 					class="max-w-prose text-2xl font-bold text-center md:text-2xl text-primary md:text-left"
 				>
