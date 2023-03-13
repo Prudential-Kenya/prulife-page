@@ -182,6 +182,7 @@
 	}
 
 	async function saveLeadToDb() {
+		await getQuote(true);
 		if (!mobile || !date) {
 			return;
 		}
@@ -204,8 +205,7 @@
 			premium: selectedPremium
 		};
 
-
-		await getQuote(true);
+		
 
 		const res = await saveLead(leadPayload);
 		console.log(res);
