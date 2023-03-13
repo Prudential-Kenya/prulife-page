@@ -182,9 +182,9 @@
 	}
 
 	async function saveLeadToDb() {
-		if (!mobile || !date) {
-			return;
-		}
+		// if (!mobile || !date) {
+		// 	return;
+		// }
 		let fname = $form.name.split(' ')[0].trim();
 		let lname = $form.name.split(' ')[1].trim();
 		// const payload: LeadPayload = {
