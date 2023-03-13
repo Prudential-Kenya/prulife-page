@@ -8,7 +8,7 @@
 
 	import { Popover, Modal, Spinner, Datepicker } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
-	// import { saveLead, type LeadPayload } from './page';
+	import { saveLead, type LeadPayload } from './page';
 	let defaultModal = false,
 		showError = false,
 		errorMsg = '';
@@ -53,7 +53,7 @@
 	};
 
 	let payload = {
-		age: '18',
+		age: 18,
 		term: '',
 		plan: '',
 		name: '',
@@ -182,32 +182,39 @@
 	}
 
 	async function saveLeadToDb() {
-		// if (!mobile || !date) {
-		// 	return;
-		// }
+		if (!mobile || !date) {
+			return;
+		}
 		let fname = $form.name.split(' ')[0].trim();
 		let lname = $form.name.split(' ')[1].trim();
-		// const payload: LeadPayload = {
-		// 	fname,
-		// 	lname,
-		// 	email: $form.email,
-		// 	mnumber: mobile,
-		// 	campaign: 'PRULife Campaign 2023',
-		// 	isDigital: true,
-		// 	is_from_agent: false,
-		// 	source: 'Microsite'
-		// };
+		const leadPayload: LeadPayload = {
+			fname,
+			lname,
+			email: $form.email,
+			mnumber: mobile,
+			campaign: 'PRULife Campaign 2023',
+			isDigital: true,
+			is_from_agent: false,
+			source: 'Microsite',
+			age: payload.age,
+			gender: payload.gender,
+			smoker: payload.smoker,
+			product: `PRULife (${payload.plan})`,
+			coverAmount: selectedSumAssured,
+			premium: selectedPremium
+		};
+
 
 		await getQuote(true);
 
-		// const res = await saveLead(payload);
-		// console.log(res);
+		const res = await saveLead(leadPayload);
+		console.log(res);
 
-		// if (res.success) {
-		// 	//close modal
-		// } else {
-		// 	// allow re-submission
-		// }
+		if (res.success) {
+			//close modal
+		} else {
+			// allow re-submission
+		}
 	}
 
 	function classNames(...classes: any) {
