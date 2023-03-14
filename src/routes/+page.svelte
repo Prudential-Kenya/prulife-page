@@ -18,7 +18,8 @@
 	const plans = [
 		// 'Plan A (Life Protection only)',
 		'Build My Plan',
-		'Plan B (Life Protection with critical illness cover)'
+		'Life Protection plan with critical illness cover',
+		// 'Plan B (Life Protection with critical illness cover)'
 	];
 	const options = ['Yes', 'No'];
 	const genderOptions = ['Female', 'Male'];
@@ -112,7 +113,7 @@
 	async function getQuote(emailQuote: boolean) {
 		isCalculating = true;
 		let plan_type = 'plan-a';
-		if (payload.plan.toLocaleLowerCase().includes('plan b')) {
+		if (payload.plan.toLocaleLowerCase().includes('critical')) {
 			plan_type = 'plan-b';
 		}
 
@@ -252,14 +253,26 @@
 	</div>
 </Modal>
 
-<!-- Pop over -->
+<!-- Pop over -CI -->
 <Popover class="w-64 text-sm font-light " title="Critical illnes cover" triggeredBy="#p1">
 	A lump sum payment that is made to a customer to relieve them of financial strain caused by a
 	first time diagnosis of a critical or terminal illness as defined in a policy
 </Popover>
 
+
 <!-- Modal - calculator response -->
 <Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
+	<!-- Pop over - Cover amount-->
+<Popover class="w-64 text-sm font-light " title="Cover amount" triggeredBy="#p2">
+	Amount of money that is paid to family members and dependents (beneficiaries) in the unfortunate event of the policyholder's demise.
+</Popover>
+
+<!-- Pop over - Cover amount-->
+<Popover class="w-64 text-sm font-light " title="Monthly premium" triggeredBy="#p3">
+	Amount of money paid monthly to your life insurance company in exchange for your life insurance coverage.
+</Popover>
+
+
 	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
 		Once you accept this quotation, we will reach out to you to walk you through the cover details
 		and additional options.
@@ -269,8 +282,23 @@
 			<div
 				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
-				<Indicator color="teal" />
-				<span class="flex-1 ml-3 whitespace-nowrap">Cover amount</span>
+				<!-- <Indicator color="teal" /> -->
+				<svg
+				aria-hidden="true"
+				class="w-5 h-5 fill-teal-500"
+				id="p2"
+				fill="gray"
+				viewBox="0 0 20 20"
+				xmlns="http://www.w3.org/2000/svg"
+				><path
+					fill-rule="evenodd"
+					d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+					clip-rule="evenodd"
+				/></svg>
+				<span class="flex-1 ml-3 whitespace-nowrap">
+						Cover amount
+				</span>
+			
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
@@ -288,7 +316,19 @@
 			<div
 				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
-				<Indicator color="teal" />
+				<!-- <Indicator color="teal" /> -->
+				<svg
+				aria-hidden="true"
+				class="w-5 h-5 fill-teal-500"
+				id="p3"
+				fill="gray"
+				viewBox="0 0 20 20"
+				xmlns="http://www.w3.org/2000/svg"
+				><path
+					fill-rule="evenodd"
+					d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+					clip-rule="evenodd"
+				/></svg>
 				<span class="flex-1 ml-3 whitespace-nowrap">Monthly premium</span>
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
@@ -383,6 +423,20 @@
 			</div>
 		</div>
 	</section>
+
+	
+	<svg
+									aria-hidden="true"
+									class="w-5 h-5 fill-gray-500"
+									id="p2"
+									fill="gray"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+									><path
+										fill-rule="evenodd"
+										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+										clip-rule="evenodd"
+									/></svg>
 
 	<section id="banner-divider">
 		<div class="container flex px-6 mx-auto my-10 md:my-16 justify-center items-center">
