@@ -33,6 +33,8 @@ export interface LeadPayload {
 	gender: string;
 	smoker: string;
 	product: string;
+	term: string;
+	dateToContact: string;
 	coverAmount?: number;
 	premium?: number;
 }

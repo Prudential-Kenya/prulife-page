@@ -82,6 +82,8 @@
 	// const today = new Date().toISOString(); //.split('T')[0];
 	const today = dayjs().add(5,'hours').toISOString()
 
+	let plan_type = 'plan-a';
+
 	let selectedSumAssured = 0,
 		selectedPremium = 0,
 		date = '',
@@ -127,7 +129,7 @@
 
 	async function getQuote(emailQuote: boolean) {
 		isCalculating = true;
-		let plan_type = 'plan-a';
+		
 		if (payload.plan.toLocaleLowerCase().includes('critical')) {
 			plan_type = 'plan-b';
 		}
@@ -209,17 +211,22 @@
 			lname,
 			email: $form.email,
 			mnumber: mobile,
-			campaign: 'PRULife Campaign 2023',
+			campaign: `PRULife Campaign 2023`,
 			isDigital: true,
 			is_from_agent: false,
 			source: 'Microsite',
 			age: payload.age,
 			gender: payload.gender,
 			smoker: payload.smoker,
-			product: `PRULife (${payload.plan})`,
+			product: `PRULife (${plan_type})`,
 			coverAmount: selectedSumAssured,
-			premium: selectedPremium
+			premium: selectedPremium,
+			dateToContact: date,
+			term: payload.term
 		};
+
+		console.log(leadPayload);
+		
 
 		const res = await saveLead(leadPayload);
 		console.log(res);
