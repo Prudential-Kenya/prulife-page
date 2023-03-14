@@ -466,20 +466,6 @@
 		</div>
 	</section>
 
-	<svg
-		aria-hidden="true"
-		class="w-5 h-5 fill-gray-500"
-		id="p2"
-		fill="gray"
-		viewBox="0 0 20 20"
-		xmlns="http://www.w3.org/2000/svg"
-		><path
-			fill-rule="evenodd"
-			d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-			clip-rule="evenodd"
-		/></svg
-	>
-
 	<section id="banner-divider">
 		<div class="container flex px-6 mx-auto my-10 md:my-16 justify-center items-center">
 			<div class="flex flex-col text-2xl font-bold text-center md:text-3xl lg:text-5xl">
