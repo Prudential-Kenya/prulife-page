@@ -6,9 +6,25 @@
 	import * as yup from 'yup';
 	import dayjs from 'dayjs';
 
+	import TelInput, { normalizedCountries } from 'svelte-tel-input';
+	import type { NormalizedTelNumber, CountryCode, E164Number } from 'svelte-tel-input/types';
+
 	import { Popover, Modal, Spinner, Datepicker } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
 	import { saveLead, type LeadPayload } from './page';
+
+	let selectedCountry = 'KE';
+	// Any Country Code Alpha-2 (ISO 3166)
+	let country: CountryCode | null = 'KE';
+
+	// You must use E164 number format. It's guarantee the parsing and storing consistency.
+	let mobile: E164Number | null = ''//'+254715249602';
+
+	// Validity
+	let isPhoneValid = true;
+	// Optional - Extended details about the parsed phone number
+	let parsedTelInput: NormalizedTelNumber | null = null;
+
 	let defaultModal = false,
 		showError = false,
 		errorMsg = '';
@@ -18,7 +34,7 @@
 	const plans = [
 		// 'Plan A (Life Protection only)',
 		'Build My Plan',
-		'Life Protection plan with critical illness cover',
+		'Life Protection plan with critical illness cover'
 		// 'Plan B (Life Protection with critical illness cover)'
 	];
 	const options = ['Yes', 'No'];
@@ -63,11 +79,11 @@
 		smoker: 'No',
 		gender: ''
 	};
-	const today = new Date().toISOString(); //.split('T')[0];
+	// const today = new Date().toISOString(); //.split('T')[0];
+	const today = dayjs().add(5,'hours').toISOString()
 
 	let selectedSumAssured = 0,
 		selectedPremium = 0,
-		mobile = '',
 		date = '',
 		usePremium = false;
 
@@ -79,7 +95,6 @@
 			term: yup.string().required(),
 			plan: yup.string().required(),
 			name: yup.string().required(),
-			phone: yup.string(),
 			email: yup.string().email().required(),
 			smoker: yup.string().required()
 		}),
@@ -206,8 +221,6 @@
 			premium: selectedPremium
 		};
 
-		
-
 		const res = await saveLead(leadPayload);
 		console.log(res);
 
@@ -259,19 +272,19 @@
 	first time diagnosis of a critical or terminal illness as defined in a policy
 </Popover>
 
-
 <!-- Modal - calculator response -->
 <Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
 	<!-- Pop over - Cover amount-->
-<Popover class="w-64 text-sm font-light " title="Cover amount" triggeredBy="#p2">
-	Amount of money that is paid to family members and dependents (beneficiaries) in the unfortunate event of the policyholder's demise.
-</Popover>
+	<Popover class="w-64 text-sm font-light " title="Cover amount" triggeredBy="#p2">
+		Amount of money that is paid to family members and dependents (beneficiaries) in the unfortunate
+		event of the policyholder's demise.
+	</Popover>
 
-<!-- Pop over - Cover amount-->
-<Popover class="w-64 text-sm font-light " title="Monthly premium" triggeredBy="#p3">
-	Amount of money paid monthly to your life insurance company in exchange for your life insurance coverage.
-</Popover>
-
+	<!-- Pop over - Cover amount-->
+	<Popover class="w-64 text-sm font-light " title="Monthly premium" triggeredBy="#p3">
+		Amount of money paid monthly to your life insurance company in exchange for your life insurance
+		coverage.
+	</Popover>
 
 	<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
 		Once you accept this quotation, we will reach out to you to walk you through the cover details
@@ -284,21 +297,20 @@
 			>
 				<!-- <Indicator color="teal" /> -->
 				<svg
-				aria-hidden="true"
-				class="w-5 h-5 fill-teal-500"
-				id="p2"
-				fill="gray"
-				viewBox="0 0 20 20"
-				xmlns="http://www.w3.org/2000/svg"
-				><path
-					fill-rule="evenodd"
-					d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-					clip-rule="evenodd"
-				/></svg>
-				<span class="flex-1 ml-3 whitespace-nowrap">
-						Cover amount
-				</span>
-			
+					aria-hidden="true"
+					class="w-5 h-5 fill-teal-500"
+					id="p2"
+					fill="gray"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+					><path
+						fill-rule="evenodd"
+						d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+						clip-rule="evenodd"
+					/></svg
+				>
+				<span class="flex-1 ml-3 whitespace-nowrap"> Cover amount </span>
+
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
@@ -318,17 +330,18 @@
 			>
 				<!-- <Indicator color="teal" /> -->
 				<svg
-				aria-hidden="true"
-				class="w-5 h-5 fill-teal-500"
-				id="p3"
-				fill="gray"
-				viewBox="0 0 20 20"
-				xmlns="http://www.w3.org/2000/svg"
-				><path
-					fill-rule="evenodd"
-					d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-					clip-rule="evenodd"
-				/></svg>
+					aria-hidden="true"
+					class="w-5 h-5 fill-teal-500"
+					id="p3"
+					fill="gray"
+					viewBox="0 0 20 20"
+					xmlns="http://www.w3.org/2000/svg"
+					><path
+						fill-rule="evenodd"
+						d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+						clip-rule="evenodd"
+					/></svg
+				>
 				<span class="flex-1 ml-3 whitespace-nowrap">Monthly premium</span>
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
@@ -371,12 +384,38 @@
 				<label for="mobile" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
 					>Phone number
 				</label>
-				<input
+				<!-- <input
 					class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
 					id="mobile"
 					bind:value={mobile}
 					type="text"
-				/>
+				/> -->
+				<div class="flex">
+					<select
+						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+						aria-label="Default select example"
+						name="Country"
+						bind:value={selectedCountry}
+					>
+						<option value={null} hidden={selectedCountry !== null}>Please select</option>
+						{#each normalizedCountries as country (country.id)}
+							<option
+								value={country.iso2}
+								selected={country.iso2 === selectedCountry}
+								aria-selected={country.iso2 === selectedCountry}
+							>
+								{country.iso2} (+{country.dialCode})
+							</option>
+						{/each}
+					</select>
+					<TelInput
+						bind:country
+						bind:value={mobile}
+						bind:valid={isPhoneValid}
+						bind:parsedTelInput
+						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+					/>
+				</div>
 			</div>
 			<div class="flex flex-col flex-1">
 				<label for="date" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
@@ -391,6 +430,9 @@
 				/>
 			</div>
 		</div>
+		{#if !isPhoneValid}
+			<p class="text-xs text-primary mt-2">Please add your correct mobile number</p>
+		{/if}
 	</div>
 
 	<svelte:fragment slot="footer">
@@ -424,19 +466,19 @@
 		</div>
 	</section>
 
-	
 	<svg
-									aria-hidden="true"
-									class="w-5 h-5 fill-gray-500"
-									id="p2"
-									fill="gray"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									><path
-										fill-rule="evenodd"
-										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-										clip-rule="evenodd"
-									/></svg>
+		aria-hidden="true"
+		class="w-5 h-5 fill-gray-500"
+		id="p2"
+		fill="gray"
+		viewBox="0 0 20 20"
+		xmlns="http://www.w3.org/2000/svg"
+		><path
+			fill-rule="evenodd"
+			d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+			clip-rule="evenodd"
+		/></svg
+	>
 
 	<section id="banner-divider">
 		<div class="container flex px-6 mx-auto my-10 md:my-16 justify-center items-center">
@@ -470,7 +512,11 @@
 					>
 						Your life is worth something
 					</h1>
-					<h1 class={classNames("flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-2xl")}>
+					<h1
+						class={classNames(
+							'flex w-full items-center justify-center font-bold text-xl px-3 md:px-0 md:text-2xl'
+						)}
+					>
 						We can't really put a figure to it,
 					</h1>
 					<p
@@ -748,3 +794,27 @@
 		</div>
 	</div>
 </section>
+
+<style>
+	.wrapper :global(.basic-tel-input) {
+		height: 32px;
+		padding-left: 12px;
+		padding-right: 12px;
+		border-radius: 6px;
+		border: 1px solid;
+		outline: none;
+	}
+
+	.wrapper :global(.country-select) {
+		height: 36px;
+		padding-left: 12px;
+		padding-right: 12px;
+		border-radius: 6px;
+		border: 1px solid;
+		outline: none;
+	}
+
+	.wrapper :global(.invalid) {
+		border-color: red;
+	}
+</style>
