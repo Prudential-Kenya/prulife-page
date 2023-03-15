@@ -457,12 +457,12 @@
 	</svelte:fragment>
 </Modal>
 
-<!-- body -->
+<!-- body removed classes - container px-6 mx-auto -->
 <div class="bg-background">
 	<!-- Banner Section -->
 	<section id="banner">
 		<!-- Flex Container -->
-		<div class="relative container flex items-center px-6 mx-auto mt-0 w-full rounded-xl">
+		<div class="relative flex items-center justify-center mt-2 w-full rounded-xl">
 			<img src={bannerImg1} alt="Banner" class="object-cover rounded-xl" />
 			<div
 				class="absolute text-2xl w-full md:max-w-xs top-5/12 ml-3 md:ml-0 md:left-24 text-primary font-extrabold md:text-3xl lg:text-5xl"
@@ -474,7 +474,7 @@
 	</section>
 
 	<section id="banner-divider">
-		<div class="container flex px-6 mx-auto my-10 md:my-16 justify-center items-center">
+		<div class="flex my-10 md:my-16 justify-center items-center">
 			<div class="flex flex-col text-2xl font-bold text-center md:text-3xl lg:text-5xl">
 				<h1>Get the only life insurance cover that</h1>
 				<h1>you don't have to pay for, for life.</h1>
@@ -485,7 +485,7 @@
 	<!-- Calculator Section -->
 	<section id="calculator">
 		<!-- Flex Container -->
-		<div class={classNames('container flex w-full mx-auto px-6 mt-10')}>
+		<div class={classNames('flex w-full mt-10 items-center justify-center')}>
 			<div
 				class={classNames(
 					'flex flex-col md:flex-row w-full md:max-w-6xl items-center space-x-0',
@@ -756,8 +756,8 @@
 	<!-- Flex Container -->
 	<div
 		class={classNames(
-			'container flex flex-col-reverse items-center px-6 mx-auto mt-14 space-y-0',
-			'md:space-y-0 md:flex-row '
+			'flex flex-col-reverse items-center mt-14 space-y-0',
+			'md:space-y-0 md:flex-row'
 		)}
 	>
 		<!-- Left item -->

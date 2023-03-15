@@ -1,6 +1,6 @@
 export async function saveLead(payload: LeadPayload) {
 
-	let headersList = {
+	const headersList = {
 		"Accept": "*/*",
 		"User-Agent": "Thunder Client (https://www.thunderclient.com)",
 		"Content-Type": "application/json"
