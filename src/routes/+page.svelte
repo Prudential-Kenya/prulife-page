@@ -462,7 +462,7 @@
 	<!-- Banner Section -->
 	<section id="banner">
 		<!-- Flex Container -->
-		<div class="relative flex items-center justify-center mt-2 w-full rounded-xl">
+		<div class="relative flex items-center justify-center mt-5 w-full rounded-xl">
 			<img src={bannerImg1} alt="Banner" class="object-cover rounded-xl" />
 			<div
 				class="absolute text-2xl w-full md:max-w-xs top-5/12 ml-3 md:ml-0 md:left-24 text-primary font-extrabold md:text-3xl lg:text-5xl"
