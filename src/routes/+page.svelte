@@ -31,6 +31,8 @@
 
 	const guide = 'Choose your convenient date and time and we will contact you';
 
+	const disclaimer = 'Please note, with this policy, you are covered for the rest of your life. The cover amount and respective premium amounts are approximates from our calculator and can be designed to suit your exact needs.';
+
 	const plans = [
 		// 'Plan A (Life Protection only)',
 		'Build My Plan',
@@ -302,21 +304,23 @@
 			<div
 				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
-				<!-- <Indicator color="teal" /> -->
-				<svg
-					aria-hidden="true"
-					class="w-5 h-5 fill-teal-500"
-					id="p2"
-					fill="gray"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-					><path
-						fill-rule="evenodd"
-						d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-						clip-rule="evenodd"
-					/></svg
-				>
-				<span class="flex-1 ml-3 whitespace-nowrap"> Cover amount </span>
+				<span class="flex flex-1 whitespace-nowrap"> Cover amount 
+					<!-- <Indicator color="teal" /> -->
+					<svg
+						aria-hidden="true"
+						class="ml-1 w-5 h-5 fill-teal-500"
+						id="p2"
+						fill="gray"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+						><path
+							fill-rule="evenodd"
+							d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+				</span>
+				
 
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
@@ -335,21 +339,23 @@
 			<div
 				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
-				<!-- <Indicator color="teal" /> -->
-				<svg
-					aria-hidden="true"
-					class="w-5 h-5 fill-teal-500"
-					id="p3"
-					fill="gray"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-					><path
-						fill-rule="evenodd"
-						d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-						clip-rule="evenodd"
-					/></svg
-				>
-				<span class="flex-1 ml-3 whitespace-nowrap">Monthly premium</span>
+				<span class="flex flex-1 whitespace-nowrap">Monthly premium
+					<!-- <Indicator color="teal" /> -->
+					<svg
+						aria-hidden="true"
+						class="ml-1 w-5 h-5 fill-teal-500"
+						id="p3"
+						fill="gray"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+						><path
+							fill-rule="evenodd"
+							d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+				</span>
+				
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
@@ -441,6 +447,10 @@
 			<p class="text-xs text-primary mt-2">Please add your correct mobile number</p>
 		{/if}
 	</div>
+	<!-- disclaimer -->
+	<p class="font-normal text-gray-500 dark:text-gray-400">
+		{disclaimer}
+	</p>
 
 	<svelte:fragment slot="footer">
 		<button
