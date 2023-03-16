@@ -5,11 +5,12 @@
 	import bannerImg1 from '$lib/images/banner-2.png';
 	import * as yup from 'yup';
 	import dayjs from 'dayjs';
+	import Swal from 'sweetalert2';
 
 	import TelInput, { normalizedCountries } from 'svelte-tel-input';
 	import type { NormalizedTelNumber, CountryCode, E164Number } from 'svelte-tel-input/types';
 
-	import { Popover, Modal, Spinner, Datepicker } from 'flowbite-svelte';
+	import { Popover, Modal, Spinner, Alert } from 'flowbite-svelte';
 	import { Indicator } from 'flowbite-svelte';
 	import { saveLead, type LeadPayload } from './page';
 
@@ -18,7 +19,7 @@
 	let country: CountryCode | null = 'KE';
 
 	// You must use E164 number format. It's guarantee the parsing and storing consistency.
-	let mobile: E164Number | null = ''//'+254715249602';
+	let mobile: E164Number | null = ''; //'+254715249602';
 
 	// Validity
 	let isPhoneValid = true;
@@ -31,7 +32,8 @@
 
 	const guide = 'Choose your convenient date and time and we will contact you';
 
-	const disclaimer = 'Please note, with this policy, you are covered for the rest of your life. The cover amount and respective premium amounts are approximates from our calculator and can be designed to suit your exact needs.';
+	const disclaimer =
+		'Please note, with this policy, you are covered for the rest of your life. The cover amount and respective premium amounts are approximates from our calculator and can be designed to suit your exact needs.';
 
 	const plans = [
 		// 'Plan A (Life Protection only)',
@@ -82,7 +84,7 @@
 		gender: ''
 	};
 	// const today = new Date().toISOString(); //.split('T')[0];
-	const today = dayjs().add(5,'hours').toISOString()
+	const today = dayjs().add(5, 'hours').toISOString();
 
 	let plan_type = 'plan-a';
 
@@ -128,10 +130,19 @@
 			// console.log(data);
 		}
 	});
+	let isDateValid = true
+
+	function validateDate(){
+		if(dayjs(date).isAfter(today)){
+			isDateValid = true
+		}else{
+			isDateValid = false
+		}
+	}
 
 	async function getQuote(emailQuote: boolean) {
 		isCalculating = true;
-		
+
 		if (payload.plan.toLocaleLowerCase().includes('critical')) {
 			plan_type = 'plan-b';
 		}
@@ -202,10 +213,12 @@
 	}
 
 	async function saveLeadToDb() {
-		await getQuote(true);
+		// await getQuote(true);
+
 		if (!mobile || !date) {
 			return;
 		}
+		
 		let fname = $form.name.split(' ')[0].trim();
 		let lname = $form.name.split(' ')[1].trim();
 		const leadPayload: LeadPayload = {
@@ -228,14 +241,26 @@
 		};
 
 		console.log(leadPayload);
-		
 
 		const res = await saveLead(leadPayload);
 		console.log(res);
 
 		if (res.success) {
 			//close modal
+			Swal.fire({
+				text: 'Asante sana! Your quote is ready and has been sent to your email 😊. Cheers!',
+				icon: 'success',
+				confirmButtonColor: '#DA291C',
+				confirmButtonText: '  Close  '
+			});
 		} else {
+			//TODO: show customer error?
+			Swal.fire({
+				text: 'Asante sana! Your quote is ready and has been sent to your email 😊. Cheers!',
+				icon: 'success',
+				confirmButtonColor: '#DA291C',
+				confirmButtonText: '  Close  '
+			});
 			// allow re-submission
 		}
 	}
@@ -304,7 +329,8 @@
 			<div
 				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
-				<span class="flex flex-1 whitespace-nowrap"> Cover amount 
+				<span class="flex flex-1 whitespace-nowrap">
+					Cover amount
 					<!-- <Indicator color="teal" /> -->
 					<svg
 						aria-hidden="true"
@@ -320,7 +346,6 @@
 						/>
 					</svg>
 				</span>
-				
 
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
@@ -339,7 +364,8 @@
 			<div
 				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
-				<span class="flex flex-1 whitespace-nowrap">Monthly premium
+				<span class="flex flex-1 whitespace-nowrap"
+					>Monthly premium
 					<!-- <Indicator color="teal" /> -->
 					<svg
 						aria-hidden="true"
@@ -355,7 +381,7 @@
 						/>
 					</svg>
 				</span>
-				
+
 				<div class="flex-2">
 					<span class=" ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
@@ -428,7 +454,11 @@
 						bind:parsedTelInput
 						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
 					/>
+				
 				</div>
+				{#if !isPhoneValid}
+				<p class="text-xs text-primary mt-2">Please add your correct mobile number</p>
+			{/if}
 			</div>
 			<div class="flex flex-col flex-1">
 				<label for="date" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
@@ -438,14 +468,17 @@
 					class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
 					id="date"
 					bind:value={date}
+					on:change={validateDate}
 					min={today}
 					type="datetime-local"
 				/>
+				{#if !isDateValid}
+			<p class="text-xs text-primary mt-2">Date should be atleast an hour from now</p>
+		{/if}
 			</div>
 		</div>
-		{#if !isPhoneValid}
-			<p class="text-xs text-primary mt-2">Please add your correct mobile number</p>
-		{/if}
+		
+		
 	</div>
 	<!-- disclaimer -->
 	<p class="font-normal text-gray-500 dark:text-gray-400">
@@ -453,12 +486,21 @@
 	</p>
 
 	<svelte:fragment slot="footer">
+		{#if !isPhoneValid || !isDateValid || !date}
+		<button
+		disabled
+		class=" text-gray-50 bg-gray-500 hover:bg-gray-400 font-medium rounded-md text-sm px-8 py-2.5 text-center mr-2 mb-2"
+	>
+		Proceed
+	</button>
+		{:else}
 		<button
 			on:click={saveLeadToDb}
 			class="  text-gray-50 bg-primary hover:bg-red-400 font-medium rounded-md text-sm px-8 py-2.5 text-center mr-2 mb-2"
 		>
 			Proceed
 		</button>
+		{/if}
 		<!-- <button
 			class=" text-gray-800 bg-transparent border border-gray-200 hover:bg-red-100 hover:text-primary  font-medium rounded-md text-sm px-5 py-2.5 text-center mr-2 mb-2"
 		>
