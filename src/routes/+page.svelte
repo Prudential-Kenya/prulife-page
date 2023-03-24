@@ -213,7 +213,7 @@
 	}
 
 	async function saveLeadToDb() {
-		// await getQuote(true);
+		await getQuote(true);
 
 		if (!mobile || !date) {
 			return;
