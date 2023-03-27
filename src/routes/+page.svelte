@@ -419,7 +419,7 @@
 	</p>
 	<div class=" bg-gray-100 p-5 rounded-xl ">
 		<div class="flex flex-col md:flex-row gap-5">
-			<div class="flex flex-col flex-1">
+			<div class="flex flex-col">
 				<label for="mobile" class="mb-2 text-base font-bold text-gray-900 dark:text-white"
 					>Phone number
 				</label>
@@ -429,7 +429,7 @@
 					bind:value={mobile}
 					type="text"
 				/> -->
-				<div class="flex w-full">
+				<div class="flex w-full space-x-2">
 					<select
 						class="flex w-fit rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
 						aria-label="Default select example"
@@ -460,8 +460,8 @@
 					<p class="text-xs text-primary mt-2">Please add your correct mobile number</p>
 				{/if}
 			</div>
-			<div class="flex flex-col flex-1">
-				<label for="date" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
+			<div class="flex flex-col">
+				<label for="date" class="mb-2 text-base font-bold text-gray-900 dark:text-white"
 					>Date and Time
 				</label>
 				<input
