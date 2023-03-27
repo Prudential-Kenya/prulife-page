@@ -429,7 +429,7 @@
 					bind:value={mobile}
 					type="text"
 				/> -->
-				<div class="flex w-full space-x-2">
+				<div class="flex flex-col md:flex-row w-full space-x-0 md:space-x-2">
 					<select
 						class="flex w-fit rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
 						aria-label="Default select example"
