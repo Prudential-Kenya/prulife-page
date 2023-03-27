@@ -420,7 +420,7 @@
 	<div class=" bg-gray-100 p-5 rounded-xl ">
 		<div class="flex flex-col md:flex-row gap-5">
 			<div class="flex flex-col flex-1">
-				<label for="mobile" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
+				<label for="mobile" class="mb-2 text-base font-bold text-gray-900 dark:text-white"
 					>Phone number
 				</label>
 				<!-- <input
@@ -429,9 +429,9 @@
 					bind:value={mobile}
 					type="text"
 				/> -->
-				<div class="flex">
+				<div class="flex w-full">
 					<select
-						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+						class="flex w-fit rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
 						aria-label="Default select example"
 						name="Country"
 						bind:value={selectedCountry}
@@ -452,7 +452,7 @@
 						bind:value={mobile}
 						bind:valid={isPhoneValid}
 						bind:parsedTelInput
-						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
+						class="flex flex-grow rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
 					/>
 				
 				</div>
@@ -477,8 +477,6 @@
 				{/if}
 			</div>
 		</div>
-		
-		
 	</div>
 	<!-- disclaimer -->
 	<p class="font-normal text-gray-500 dark:text-gray-400">
