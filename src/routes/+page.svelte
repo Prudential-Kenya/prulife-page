@@ -307,7 +307,7 @@
 </Popover>
 
 <!-- Modal - calculator response -->
-<Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose>
+<Modal title="Cover amounts and benefits" bind:open={defaultModal} autoclose class="w-full overflow-x-hidden">
 	<!-- Pop over - Cover amount-->
 	<Popover class="w-64 text-sm font-light " title="Cover amount" triggeredBy="#p2">
 		Amount of money that is paid to family members and dependents (beneficiaries) in the unfortunate
@@ -327,7 +327,7 @@
 	<ul class="my-0 space-y-3 ">
 		<li>
 			<div
-				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+				class="flex flex-col md:flex-row items-start md:items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
 				<span class="flex flex-1 whitespace-nowrap">
 					Cover amount
@@ -347,8 +347,8 @@
 					</svg>
 				</span>
 
-				<div class="flex-2">
-					<span class=" ml-3 whitespace-nowrap">KES</span>
+				<div class="flex-2 mt-2 md:mt-0">
+					<span class="ml-0 md:ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
 					<input
 						class="rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
@@ -362,7 +362,7 @@
 		</li>
 		<li>
 			<div
-				class="flex items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+				class="flex flex-col md:flex-row items-start md:items-center p-5 text-base font-bold text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
 			>
 				<span class="flex flex-1 whitespace-nowrap"
 					>Monthly premium
@@ -382,8 +382,8 @@
 					</svg>
 				</span>
 
-				<div class="flex-2">
-					<span class=" ml-3 whitespace-nowrap">KES</span>
+				<div class="flex-2 mt-2 md:mt-0">
+					<span class="ml-0 md:ml-3 whitespace-nowrap">KES</span>
 					<!-- {Number(calculatedValues.sum_assured).toLocaleString()} -->
 					<input
 						class=" rounded-lg bg-gray-50 appearance-none border border-gray-200  p-2.5 text-gray-900 leading-tight focus:outline-none focus:bg-white  focus:ring-red-200 focus:border-red-200"
@@ -418,7 +418,7 @@
 		{guide}
 	</p>
 	<div class=" bg-gray-100 p-5 rounded-xl ">
-		<div class="flex gap-5">
+		<div class="flex flex-col md:flex-row gap-5">
 			<div class="flex flex-col flex-1">
 				<label for="mobile" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
 					>Phone number
@@ -457,8 +457,8 @@
 				
 				</div>
 				{#if !isPhoneValid}
-				<p class="text-xs text-primary mt-2">Please add your correct mobile number</p>
-			{/if}
+					<p class="text-xs text-primary mt-2">Please add your correct mobile number</p>
+				{/if}
 			</div>
 			<div class="flex flex-col flex-1">
 				<label for="date" class=" mb-2 text-base font-bold text-gray-900 dark:text-white"
@@ -473,8 +473,8 @@
 					type="datetime-local"
 				/>
 				{#if !isDateValid}
-			<p class="text-xs text-primary mt-2">Date should be atleast an hour from now</p>
-		{/if}
+					<p class="text-xs text-primary mt-2">Date should be atleast an hour from now</p>
+				{/if}
 			</div>
 		</div>
 		
