@@ -218,9 +218,14 @@
 		if (!mobile || !date) {
 			return;
 		}
-		
-		let fname = $form.name.split(' ')[0].trim();
-		let lname = $form.name.split(' ')[1].trim();
+
+		let names = $form.name.trim();
+		let nameParts = names.split(' ');
+		let fname = nameParts[0].trim();
+		let lname = '';
+		if(nameParts.length > 1){
+			lname = nameParts[1].trim();
+		}
 		const leadPayload: LeadPayload = {
 			fname,
 			lname,
