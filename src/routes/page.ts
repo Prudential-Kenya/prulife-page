@@ -2,10 +2,10 @@ export async function saveLead(payload: LeadPayload) {
 
 	const headersList = {
 		"Accept": "*/*",
-		"User-Agent": "Thunder Client (https://www.thunderclient.com)",
 		"Content-Type": "application/json"
 	   }
 	const url = 'https://api-agency.prudentiallife.co.ke/leads-new/new-lead';
+	// const url = 'http://localhost:1000/leads-new/new-lead';
 	const response = await fetch(url, {
 		method: 'POST',
 		headers: headersList,
@@ -31,7 +31,7 @@ export interface LeadPayload {
 	is_from_agent: boolean;
 	age: number;
 	gender: string;
-	smoker: string;
+	smoker: boolean;
 	product: string;
 	term: string;
 	dateToContact: string;

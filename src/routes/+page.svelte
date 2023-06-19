@@ -213,6 +213,7 @@
 	}
 
 	async function saveLeadToDb() {
+		console.log('saving lead to db...')
 		await getQuote(true);
 
 		if (!mobile || !date) {
@@ -237,7 +238,7 @@
 			source: 'Microsite',
 			age: payload.age,
 			gender: payload.gender,
-			smoker: payload.smoker,
+			smoker: payload.smoker === 'No'? false: true,
 			product: `PRULife (${plan_type})`,
 			coverAmount: selectedSumAssured,
 			premium: selectedPremium,
